@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as o
+from matplotlib import pyplot as plt
 
 
 # Params
@@ -31,14 +32,14 @@ def take_data(input_path):
     for line in lines:
         if len(line) > 2:
             data_lines.append(line[:-1])
-    data = torch.zeros((len(data_lines)), 16).float()           ## length 16
+    data = torch.zeros((len(data_lines)), 16).float()           ## length 15
     for d, datum in enumerate(data_lines):
         splitted = datum.strip().split("   ")
         for s, split in enumerate(splitted):
             data[d, s] = float(split)
 
     labels = (data[:, 0].long() - 1).reshape(data.size()[0], 1)
-    data = data[:, 1:].float().reshape((data.size()[0], 15, 1))
+    data = data[:, 1:].float().reshape((data.size()[0], data.size()[1]-1, 1))
 
     return data, labels
 
@@ -72,6 +73,18 @@ if __name__ == "__main__":
     
     train_data, train_labels = take_data("train_data.txt")
     test_data, test_labels = take_data("test_data.txt")
+
+    ##### Data Visualization #####
+    
+    # plt.figure(1)
+    # colormap = ['b','g','r']
+    # for i, data in enumerate(train_data):
+    #     plt.plot(range(len(data)), data, c=colormap[train_labels[i][0]])
+
+    # plt.figure(2)
+    # for i, data in enumerate(test_data):
+    #     plt.plot(range(len(data)), data, c=colormap[test_labels[i][0]])
+    # plt.show()
 
     m = GRU()
     optim = o.Adam(m.parameters(), lr=0.001)
