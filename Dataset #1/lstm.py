@@ -38,7 +38,7 @@ def take_data(input_path):
             data[d, s] = float(split)
 
     labels = (data[:, 0].long() - 1).reshape(data.size()[0], 1)
-    data = data[:, 1:16].float().reshape((data.size()[0], 15, 1))
+    data = data[:, 1:].float().reshape((data.size()[0], 15, 1))
 
     return data, labels
 
