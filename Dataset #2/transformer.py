@@ -3,6 +3,8 @@ import torch.nn as nn
 import torch.optim as o
 from matplotlib import pyplot as plt
 import time
+import math
+from torch import Tensor
 
 
 # Constant Params
@@ -12,21 +14,58 @@ sequence_length = 60
 
 # Hyperparameters
 number_of_layers = 1        # num_layers
+dropout = float(0.1)
+pos_encode_dimension = 10   # even number
+
 
 # batch_first = True
 # batch - sequence - feature    => input shape
 # batch - sequence - number of classes    => output shape
 
+## TODO 
+## 1+ Encoder layer'i project ederken num feature'i duzgun project et
+## 1- Add cuda to transformer model
+## 2- Mnist'i test datasi olarak kullan sanity check gibi 28*28lik dataseti 28 feature, 28 sequence length gibi kullan
+## 3- Multivariate olanlarin sonuclarini al
+## 4- Modellerin icini iyi anla
 
-class GRU(nn.Module):
+# Note:
+# nheads must divide evenly into d_model (feature dimension)
+
+
+class Transformer(nn.Module):
 
     def __init__(self):
-        super(GRU, self).__init__()
-        self.gru = nn.GRU(number_of_features, number_of_classes, num_layers=number_of_layers, batch_first=True)
+        super(Transformer, self).__init__()
+        self.pos_encoder = PositionalEncoding(pos_encode_dimension, dropout, sequence_length)
+        self.layers = nn.TransformerEncoderLayer(d_model=pos_encode_dimension, nhead=1, batch_first=True)
+        self.transformer = nn.TransformerEncoder(self.layers, num_layers=number_of_layers)
+        self.decoder = nn.Linear(pos_encode_dimension, number_of_classes)
+
 
     def forward(self, X):
-        output, _ = self.gru(X, None)
-        return output[:, -1, :]
+        X = self.pos_encoder(X)
+        encoder_output = self.transformer(X)
+        output = self.decoder(encoder_output[:, -1, :])
+        return output
+
+
+class PositionalEncoding(nn.Module):
+
+    def __init__(self, d_model: int, dropout: float = 0.1, max_len: int = 500):
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+
+        position = torch.arange(max_len).reshape((1, max_len, number_of_features))          # [batch_size, seq_length, feature_num]
+        div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model))  # [(pos_encode_dimension / 2)]
+        pe = torch.zeros(1, max_len, d_model)                                               # [batch_size, seq_length, pos_encode_dimension]
+        pe[0, :, 0::2] = torch.sin(position * div_term)   
+        pe[0, :, 1::2] = torch.cos(position * div_term)
+        self.register_buffer('pe', pe)
+
+    def forward(self, x: Tensor) -> Tensor:
+        x = x + self.pe
+        return self.dropout(x)
 
 
 def take_data(input_path):
@@ -64,11 +103,11 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             loss.backward()
             optimizer.step()
             current_loss = current_loss + loss.item()
-        if e % 10 == 0:
-            print("Epoch", e, "=> Total Loss:", current_loss)
+        
+        print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
-
+    
     return model, (end_time - start_time)
 
 
@@ -88,7 +127,7 @@ def test(X, Y, model, device):
 
 
 if __name__ == "__main__":
-    
+
     train_data, train_labels = take_data("train_data.txt")
     test_data, test_labels = take_data("test_data.txt")
 
@@ -119,9 +158,9 @@ if __name__ == "__main__":
         print("Run", i+1)
         print("-----")
 
-        m = GRU()
+        m = Transformer()
         m.to(device)
-        
+
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.CrossEntropyLoss()
         m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=100)
