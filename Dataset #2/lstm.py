@@ -5,9 +5,12 @@ from matplotlib import pyplot as plt
 import time
 
 
-# Params
+# Constant Params
 number_of_features = 1      # input_size
 number_of_classes = 6       # hidden_size
+sequence_length = 60
+
+# Hyperparameters
 number_of_layers = 1        # num_layers
 
 # batch_first = True
@@ -33,11 +36,15 @@ def take_data(input_path):
     for line in lines:
         if len(line) > 2:
             data_lines.append(line[:-1])
-    data = torch.zeros((len(data_lines)), 61).float()           ## length 60
+    data = torch.zeros((len(data_lines)), sequence_length+1).float()
     for d, datum in enumerate(data_lines):
         splitted = datum.strip().split()
         for s, split in enumerate(splitted):
             data[d, s] = float(split)
+
+    # Shuffle data
+    dd= torch.randperm(data.size()[0])
+    data = data[dd]
 
     labels = (data[:, 0].long() - 1).reshape(data.size()[0], 1)
     data = data[:, 1:].float().reshape((data.size()[0], data.size()[1]-1, 1))
@@ -49,14 +56,16 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
 
     start_time = time.process_time()
     for e in range(epoch):
+        current_loss = 0
         for i, data in enumerate(X):
             prediction = model(data.unsqueeze(0).to(device))
             loss = loss_function(prediction, Y[i].to(device))
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            current_loss = current_loss + loss.item()
         if e % 10 == 0:
-            print("Epoch", e, loss.detach())
+            print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
     
