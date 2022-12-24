@@ -35,14 +35,14 @@ def take_data_lstm(input_path, length):
 def train_lstm(X, Y, model, optimizer, loss_function, device, epoch, streaming):
 
     start_time = time.process_time()
-    for e in range(epoch):
+    for e in range(1, epoch+1):
         for i, data in enumerate(X):
             prediction = model(data.unsqueeze(0).to(device))
             loss = loss_function(prediction, Y[i].to(device))
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-        if e % 10 == 0:
+        if e % 5 == 0:
             streaming(f"Epoch {e}: {loss.detach()}")
     end_time = time.process_time()
     streaming(f"Training Time: {end_time - start_time}")

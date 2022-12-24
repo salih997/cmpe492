@@ -65,7 +65,7 @@ def take_data_transformer(input_path, length):
 def train_transformer(X, Y, model, optimizer, loss_function, epoch, streaming):
 
     start_time = time.process_time()
-    for e in range(epoch):
+    for e in range(1, epoch+1):
         current_loss = 0
         for i, data in enumerate(X):
             prediction = model(data.unsqueeze(0))

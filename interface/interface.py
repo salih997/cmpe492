@@ -1,12 +1,15 @@
 import tkinter as tk
 from tkinter import messagebox
+from tkinter import filedialog as fd
+import tkinter.scrolledtext as ScrolledText
 import os
 import sys
-from tkinter import filedialog as fd
 from gru import *
 from lstm import *
 from transformer import *
 import torch.optim as o
+import logging
+import threading
 
 def resource_path(relative_path):
     try:
@@ -24,149 +27,221 @@ def testing_file_choose():
     test_file_text = fd.askopenfilename()
     test_file.config(text=test_file_text)
 
-def run_gru():
+def logger(model):
 
-    try:
-        train_data, train_labels = take_data_gru(train_file.cget("text"), int(timeseries_length.get()))
-        test_data, test_labels = take_data_gru(test_file.cget("text"), int(timeseries_length.get()))
+    class TextHandler(logging.Handler):
 
-        if torch.cuda.is_available():
-            device = torch.device("cuda")
-        else:
-            device = torch.device("cpu")
+        def __init__(self, text):
+            logging.Handler.__init__(self)
+            self.text = text
 
-        training_time_list = []
-        train_accuracy_list = []
-        train_set_testing_time_list = []
-        test_accuracy_list = []
-        test_set_testing_time_list = []
+        def emit(self, record):
+            msg = self.format(record)
+            def append():
+                self.text.configure(state='normal')
+                self.text.insert(tk.END, msg + '\n')
+                self.text.configure(state='disabled')
+                self.text.yview(tk.END)
+            self.text.after(0, append)
 
-        m = GRU(int(number_of_features.get()), int(number_of_classes.get()), int(number_of_layers.get()), True)
-        m.to(device)
+    class myGUI(tk.Frame):
 
-        optim = o.Adam(m.parameters(), lr=float(learning_rate.get()))
-        lf = nn.CrossEntropyLoss()
-        m, training_time = train_gru(train_data, train_labels, m, optim, lf, device, int(epoch.get()), test)
-        training_time_list.append(training_time)
+        def __init__(self, parent, name, *args, **kwargs):
+            tk.Frame.__init__(self, parent, *args, **kwargs)
+            self.root = parent
+            self.build_gui(name)
 
-        train_acc, train_set_testing_time = test_gru(train_data, train_labels, m, device)
-        train_accuracy_list.append(train_acc)
-        train_set_testing_time_list.append(train_set_testing_time)
+        def build_gui(self, name):                    
+            # Build GUI
+            self.root.resizable(0, 0)
+            self.root.title(f'{name}')
+            x = (self.root.winfo_screenwidth()/2) - 300
+            y = (self.root.winfo_screenheight()/2) - 400
+            self.root.geometry('%dx%d+%d+%d' % (600, 800, x, y))
 
-        test_acc, test_set_testing_time = test_gru(test_data, test_labels, m, device)
-        test_accuracy_list.append(test_acc)
-        test_set_testing_time_list.append(test_set_testing_time)
+            self.root.option_add('*tearOff', 'FALSE')
+            self.grid(column=0, row=0, sticky='ew')
+            self.grid_columnconfigure(0, weight=1, uniform='a')
+            self.grid_columnconfigure(1, weight=1, uniform='a')
+            self.grid_columnconfigure(2, weight=1, uniform='a')
+            self.grid_columnconfigure(3, weight=1, uniform='a')
 
-        print("Statistics:")
-        print("Average Training Time                ----->", sum(training_time_list) / len(training_time_list))
-        print("Average Training Accuracy            ----->", sum(train_accuracy_list) / len(train_accuracy_list))
-        print("Maximum Training Accuracy            ----->", max(train_accuracy_list))
-        print("Minimum Training Accuracy            ----->", min(train_accuracy_list))
-        print("Average Testing Time of Training Set ----->", sum(train_set_testing_time_list) / len(train_set_testing_time_list))
-        print("Average Testing Accuracy             ----->", sum(test_accuracy_list) / len(test_accuracy_list))
-        print("Maximum Testing Accuracy             ----->", max(test_accuracy_list))
-        print("Minimum Testing Accuracy             ----->", min(test_accuracy_list))
-        print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
+            # Add text widget to display logging info
+            st = ScrolledText.ScrolledText(self, state='disabled')
+            st.configure(font='TkFixedFont')
+            st.grid(column=0, row=1, sticky='w', columnspan=4)
 
-    except Exception as e:
-        messagebox.showerror(type(e).__name__, e)
+            # Create textLogger
+            text_handler = TextHandler(st)
 
-def run_lstm():
+            # Logging configuration
+            logging.basicConfig(filename=f'./logs/{model}.log', #make sure different models are logged to different log files.
+                level=logging.INFO, 
+                format='%(asctime)s - %(levelname)s - %(message)s')        
 
-    try:
+            # Add the handler to logger
+            logger = logging.getLogger()        
+            logger.addHandler(text_handler)
 
-        train_data, train_labels = take_data_lstm(train_file.cget("text"), int(timeseries_length.get()))
-        test_data, test_labels = take_data_lstm(test_file.cget("text"), int(timeseries_length.get()))
+    def streaming(text):
+        logging.info(text)
 
-        if torch.cuda.is_available():
-            device = torch.device("cuda")
-        else:
-            device = torch.device("cpu")
+    def run_gru():
 
-        training_time_list = []
-        train_accuracy_list = []
-        train_set_testing_time_list = []
-        test_accuracy_list = []
-        test_set_testing_time_list = []
+        try:
+            train_data, train_labels = take_data_gru(train_file.cget("text"), int(timeseries_length.get()))
+            test_data, test_labels = take_data_gru(test_file.cget("text"), int(timeseries_length.get()))
 
-        m = LSTM(int(number_of_features.get()), int(number_of_classes.get()), int(number_of_layers.get()), True)
-        m.to(device)
+            if torch.cuda.is_available():
+                device = torch.device("cuda")
+            else:
+                device = torch.device("cpu")
 
-        optim = o.Adam(m.parameters(), lr=float(learning_rate.get()))
-        lf = nn.CrossEntropyLoss()
-        m, training_time = train_lstm(train_data, train_labels, m, optim, lf, device, int(epoch.get()), test)
-        training_time_list.append(training_time)
+            training_time_list = []
+            train_accuracy_list = []
+            train_set_testing_time_list = []
+            test_accuracy_list = []
+            test_set_testing_time_list = []
 
-        train_acc, train_set_testing_time = test_lstm(train_data, train_labels, m, device)
-        train_accuracy_list.append(train_acc)
-        train_set_testing_time_list.append(train_set_testing_time)
+            m = GRU(int(number_of_features.get()), int(number_of_classes.get()), int(number_of_layers.get()), True)
+            m.to(device)
 
-        test_acc, test_set_testing_time = test_lstm(test_data, test_labels, m, device)
-        test_accuracy_list.append(test_acc)
-        test_set_testing_time_list.append(test_set_testing_time)
+            optim = o.Adam(m.parameters(), lr=float(learning_rate.get()))
+            lf = nn.CrossEntropyLoss()
+            m, training_time = train_gru(train_data, train_labels, m, optim, lf, device, int(epoch.get()), streaming)
+            training_time_list.append(training_time)
+
+            train_acc, train_set_testing_time = test_gru(train_data, train_labels, m, device)
+            train_accuracy_list.append(train_acc)
+            train_set_testing_time_list.append(train_set_testing_time)
+
+            test_acc, test_set_testing_time = test_gru(test_data, test_labels, m, device)
+            test_accuracy_list.append(test_acc)
+            test_set_testing_time_list.append(test_set_testing_time)
+
+            streaming("\nStatistics:")
+            streaming(f"Average Training Time                -----> {sum(training_time_list) / len(training_time_list)}")
+            streaming(f"Average Training Accuracy            -----> {sum(train_accuracy_list) / len(train_accuracy_list)}")
+            streaming(f"Maximum Training Accuracy            -----> {max(train_accuracy_list)}")
+            streaming(f"Minimum Training Accuracy            -----> {min(train_accuracy_list)}")
+            streaming(f"Average Testing Time of Training Set -----> {sum(train_set_testing_time_list) / len(train_set_testing_time_list)}")
+            streaming(f"Average Testing Accuracy             -----> {sum(test_accuracy_list) / len(test_accuracy_list)}")
+            streaming(f"Maximum Testing Accuracy             -----> {max(test_accuracy_list)}")
+            streaming(f"Minimum Testing Accuracy             -----> {min(test_accuracy_list)}")
+            streaming(f"Average Testing Time of Test Set     -----> {sum(test_set_testing_time_list) / len(test_set_testing_time_list)}")
+
+        except Exception as e:
+            messagebox.showerror(type(e).__name__, e)
+
+    def run_lstm():
+
+        try:
+
+            train_data, train_labels = take_data_lstm(train_file.cget("text"), int(timeseries_length.get()))
+            test_data, test_labels = take_data_lstm(test_file.cget("text"), int(timeseries_length.get()))
+
+            if torch.cuda.is_available():
+                device = torch.device("cuda")
+            else:
+                device = torch.device("cpu")
+
+            training_time_list = []
+            train_accuracy_list = []
+            train_set_testing_time_list = []
+            test_accuracy_list = []
+            test_set_testing_time_list = []
+
+            m = LSTM(int(number_of_features.get()), int(number_of_classes.get()), int(number_of_layers.get()), True)
+            m.to(device)
+
+            optim = o.Adam(m.parameters(), lr=float(learning_rate.get()))
+            lf = nn.CrossEntropyLoss()
+            m, training_time = train_lstm(train_data, train_labels, m, optim, lf, device, int(epoch.get()), streaming)
+            training_time_list.append(training_time)
+
+            train_acc, train_set_testing_time = test_lstm(train_data, train_labels, m, device)
+            train_accuracy_list.append(train_acc)
+            train_set_testing_time_list.append(train_set_testing_time)
+
+            test_acc, test_set_testing_time = test_lstm(test_data, test_labels, m, device)
+            test_accuracy_list.append(test_acc)
+            test_set_testing_time_list.append(test_set_testing_time)
 
 
-        print("Statistics:")
-        print("Average Training Time                ----->", sum(training_time_list) / len(training_time_list))
-        print("Average Training Accuracy            ----->", sum(train_accuracy_list) / len(train_accuracy_list))
-        print("Maximum Training Accuracy            ----->", max(train_accuracy_list))
-        print("Minimum Training Accuracy            ----->", min(train_accuracy_list))
-        print("Average Testing Time of Training Set ----->", sum(train_set_testing_time_list) / len(train_set_testing_time_list))
-        print("Average Testing Accuracy             ----->", sum(test_accuracy_list) / len(test_accuracy_list))
-        print("Maximum Testing Accuracy             ----->", max(test_accuracy_list))
-        print("Minimum Testing Accuracy             ----->", min(test_accuracy_list))
-        print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
+            streaming("\nStatistics:")
+            streaming(f"Average Training Time                -----> {sum(training_time_list) / len(training_time_list)}")
+            streaming(f"Average Training Accuracy            -----> {sum(train_accuracy_list) / len(train_accuracy_list)}")
+            streaming(f"Maximum Training Accuracy            -----> {max(train_accuracy_list)}")
+            streaming(f"Minimum Training Accuracy            -----> {min(train_accuracy_list)}")
+            streaming(f"Average Testing Time of Training Set -----> {sum(train_set_testing_time_list) / len(train_set_testing_time_list)}")
+            streaming(f"Average Testing Accuracy             -----> {sum(test_accuracy_list) / len(test_accuracy_list)}")
+            streaming(f"Maximum Testing Accuracy             -----> {max(test_accuracy_list)}")
+            streaming(f"Minimum Testing Accuracy             -----> {min(test_accuracy_list)}")
+            streaming(f"Average Testing Time of Test Set     -----> {sum(test_set_testing_time_list) / len(test_set_testing_time_list)}")
 
-    except Exception as e:
-        messagebox.showerror(type(e).__name__, e)
+        except Exception as e:
+            messagebox.showerror(type(e).__name__, e)
 
+    def run_transformer():
 
-def run_transformer():
+        try:
 
-    try:
+            dropout = float(0.1)
 
-        dropout = float(0.1)
+            train_data, train_labels = take_data_transformer(train_file.cget("text"), int(timeseries_length.get()))
+            test_data, test_labels = take_data_transformer(test_file.cget("text"), int(timeseries_length.get()))
 
-        train_data, train_labels = take_data_transformer(train_file.cget("text"), int(timeseries_length.get()))
-        test_data, test_labels = take_data_transformer(test_file.cget("text"), int(timeseries_length.get()))
+            training_time_list = []
+            train_accuracy_list = []
+            train_set_testing_time_list = []
+            test_accuracy_list = []
+            test_set_testing_time_list = []
 
-        training_time_list = []
-        train_accuracy_list = []
-        train_set_testing_time_list = []
-        test_accuracy_list = []
-        test_set_testing_time_list = []
+            m = Transformer(int(number_of_features.get()), int(number_of_classes.get()), int(number_of_layers.get()), True, int(pos_encode_dimension.get()), dropout, int(timeseries_length.get()))
+            optim = o.Adam(m.parameters(), lr=float(learning_rate.get()))
+            lf = nn.CrossEntropyLoss()
+            m, training_time = train_transformer(train_data, train_labels, m, optim, lf, int(epoch.get()), streaming)
+            training_time_list.append(training_time)
 
-        m = Transformer(int(number_of_features.get()), int(number_of_classes.get()), int(number_of_layers.get()), True, int(pos_encode_dimension.get()), dropout, int(timeseries_length.get()))
-        optim = o.Adam(m.parameters(), lr=float(learning_rate.get()))
-        lf = nn.CrossEntropyLoss()
-        m, training_time = train_transformer(train_data, train_labels, m, optim, lf, int(epoch.get()))
-        training_time_list.append(training_time)
+            train_acc, train_set_testing_time = test_transformer(train_data, train_labels, m)
+            train_accuracy_list.append(train_acc)
+            train_set_testing_time_list.append(train_set_testing_time)
 
-        train_acc, train_set_testing_time = test_transformer(train_data, train_labels, m)
-        train_accuracy_list.append(train_acc)
-        train_set_testing_time_list.append(train_set_testing_time)
+            test_acc, test_set_testing_time = test_transformer(test_data, test_labels, m)
+            test_accuracy_list.append(test_acc)
+            test_set_testing_time_list.append(test_set_testing_time)
 
-        test_acc, test_set_testing_time = test_transformer(test_data, test_labels, m)
-        test_accuracy_list.append(test_acc)
-        test_set_testing_time_list.append(test_set_testing_time)
+            streaming("\nStatistics:")
+            streaming(f"Average Training Time                -----> {sum(training_time_list) / len(training_time_list)}")
+            streaming(f"Average Training Accuracy            -----> {sum(train_accuracy_list) / len(train_accuracy_list)}")
+            streaming(f"Maximum Training Accuracy            -----> {max(train_accuracy_list)}")
+            streaming(f"Minimum Training Accuracy            -----> {min(train_accuracy_list)}")
+            streaming(f"Average Testing Time of Training Set -----> {sum(train_set_testing_time_list) / len(train_set_testing_time_list)}")
+            streaming(f"Average Testing Accuracy             -----> {sum(test_accuracy_list) / len(test_accuracy_list)}")
+            streaming(f"Maximum Testing Accuracy             -----> {max(test_accuracy_list)}")
+            streaming(f"Minimum Testing Accuracy             -----> {min(test_accuracy_list)}")
+            streaming(f"Average Testing Time of Test Set     -----> {sum(test_set_testing_time_list) / len(test_set_testing_time_list)}")
 
-        print("Statistics:")
-        print("Average Training Time                ----->", sum(training_time_list) / len(training_time_list))
-        print("Average Training Accuracy            ----->", sum(train_accuracy_list) / len(train_accuracy_list))
-        print("Maximum Training Accuracy            ----->", max(train_accuracy_list))
-        print("Minimum Training Accuracy            ----->", min(train_accuracy_list))
-        print("Average Testing Time of Training Set ----->", sum(train_set_testing_time_list) / len(train_set_testing_time_list))
-        print("Average Testing Accuracy             ----->", sum(test_accuracy_list) / len(test_accuracy_list))
-        print("Maximum Testing Accuracy             ----->", max(test_accuracy_list))
-        print("Minimum Testing Accuracy             ----->", min(test_accuracy_list))
-        print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
+        except Exception as e:
+            messagebox.showerror(type(e).__name__, e)
+    
+    def worker():
 
-    except Exception as e:
-        messagebox.showerror(type(e).__name__, e)
+        if model == "GRU":
+            run_gru()
+        elif model == "LSTM":
+            run_lstm()
+        elif model == "Transformer":
+            run_transformer()
 
-def test(text):
-    print(text)
+    root = tk.Tk()
+    myGUI(root,model)
 
+    t1 = threading.Thread(target=worker, args=[])
+    t1.start()
+
+    root.mainloop()
+    t1.join()
 
 ######################################################################################################################################
 
@@ -270,17 +345,17 @@ imgy = tk.PhotoImage(file=resource_path("boun.png"))
 logo.create_image(0, 0, anchor=tk.NW, image=imgy)
 
 gru_button = tk.Button(window, text="Run GRU", borderwidth=8,
-                            relief="raised", font=("Arial Bold", 20), command=run_gru)
+                            relief="raised", font=("Arial Bold", 20), command=lambda: logger("GRU"))
 
 gru_button.place(x=200, y=480)
 
 lstm_button = tk.Button(window, text="Run LSTM", borderwidth=8,
-                            relief="raised", font=("Arial Bold", 20), command=run_lstm)
+                            relief="raised", font=("Arial Bold", 20), command=lambda: logger("LSTM"))
 
 lstm_button.place(x=380, y=480)
 
 transformer_button = tk.Button(window, text="Run Transformer", borderwidth=8,
-                            relief="raised", font=("Arial Bold", 20), command=run_transformer)
+                            relief="raised", font=("Arial Bold", 20), command=lambda: logger("Transformer"))
 
 transformer_button.place(x=580, y=480)
 
