@@ -1,0 +1,1 @@
+pyinstaller --windowed --onefile --add-data "boun.png;." interface.py
