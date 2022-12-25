@@ -55,7 +55,7 @@ def take_data(input_path):
 def train(X, Y, model, optimizer, loss_function, device, epoch=50):
 
     start_time = time.process_time()
-    for e in range(epoch):
+    for e in range(1, epoch+1):
         current_loss = 0
         for i, data in enumerate(X):
             prediction = model(data.unsqueeze(0).to(device))
