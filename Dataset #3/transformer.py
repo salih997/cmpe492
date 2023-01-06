@@ -15,7 +15,7 @@ sequence_length = 8
 # Hyperparameters
 number_of_layers = 3        # num_layers
 dropout = float(0.1)
-pos_encode_dimension = 10   # even number
+pos_encode_dimension = 12   # even number
 
 
 # batch_first = True
@@ -107,8 +107,8 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             loss.backward()
             optimizer.step()
             current_loss = current_loss + loss.item()
-        if e % 10 == 0:
-            print("Epoch", e, "=> Total Loss:", current_loss)
+        #if e % 10 == 0:
+        print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
     
@@ -167,7 +167,7 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.CrossEntropyLoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=100)
+        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=180)
         training_time_list.append(training_time)
 
         train_acc, train_set_testing_time = test(train_data, train_labels, m, device)

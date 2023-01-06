@@ -11,7 +11,7 @@ number_of_classes = 8      # hidden_size
 sequence_length = 315
 
 # Hyperparameters
-number_of_layers = 3        # num_layers
+number_of_layers = 2        # num_layers
 
 # batch_first = True
 # batch - sequence - feature    => input shape

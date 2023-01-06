@@ -8,12 +8,12 @@ from torch import Tensor
 
 
 # Constant Params
-number_of_features = 2      # input_size
-number_of_classes = 10      # hidden_size
-sequence_length = 8
+number_of_features = 3      # input_size
+number_of_classes = 8      # hidden_size
+sequence_length = 315
 
 # Hyperparameters
-number_of_layers = 3        # num_layers
+number_of_layers = 1        # num_layers
 dropout = float(0.1)
 pos_encode_dimension = 10   # even number
 
@@ -89,13 +89,13 @@ def take_data(input_path):
     dd= torch.randperm(data.size()[0])
     data = data[dd]
 
-    labels = (data[:, -1, 0].long()).reshape(data.size()[0], 1)
+    labels = (data[:, -1, 0].long() - 1).reshape(data.size()[0], 1)
     data = data[:, :-1, :].float()
 
     return data, labels
 
 
-def train(X, Y, model, optimizer, loss_function, device, epoch=50):
+def train(X, Y, X_test, Y_test, model, optimizer, loss_function, device, epoch=50):
 
     start_time = time.process_time()
     for e in range(1, epoch+1):
@@ -108,7 +108,9 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             optimizer.step()
             current_loss = current_loss + loss.item()
         if e % 10 == 0:
-            print("Epoch", e, "=> Total Loss:", current_loss)
+            test(X, Y, m, device)
+            test(X_test, Y_test, m, device)
+        print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
     
@@ -158,7 +160,7 @@ if __name__ == "__main__":
     test_accuracy_list = []
     test_set_testing_time_list = []
 
-    for i in range(10):         # 10 runs
+    for i in range(1):         # 10 runs
         print("Run", i+1)
         print("-----")
 
@@ -167,7 +169,7 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.CrossEntropyLoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=100)
+        m, training_time = train(train_data, train_labels, test_data, test_labels, m, optim, lf, device, epoch=100)
         training_time_list.append(training_time)
 
         train_acc, train_set_testing_time = test(train_data, train_labels, m, device)
