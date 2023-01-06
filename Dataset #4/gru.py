@@ -11,7 +11,7 @@ number_of_classes = 8      # hidden_size
 sequence_length = 315
 
 # Hyperparameters
-number_of_layers = 2        # num_layers
+number_of_layers = 4        # num_layers
 
 # batch_first = True
 # batch - sequence - feature    => input shape
@@ -84,7 +84,7 @@ def test(X, Y, model, device):
     correct = 0
     for i, data in enumerate(X):
         prediction = model(data.unsqueeze(0).to(device))
-        if torch.argmax(prediction.detach()) == Y[i]:
+        if torch.argmax(prediction.detach()) == Y[i].to(device):
             correct += 1
     end_time = time.process_time()
     print("Test Time: ", end_time - start_time)
@@ -130,7 +130,7 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.CrossEntropyLoss()
-        m, training_time = train(train_data, train_labels, test_data, test_labels, m, optim, lf, device, epoch=100)
+        m, training_time = train(train_data, train_labels, test_data, test_labels, m, optim, lf, device, epoch=250)
         training_time_list.append(training_time)
 
         train_acc, train_set_testing_time = test(train_data, train_labels, m, device)

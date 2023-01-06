@@ -1,0 +1,89 @@
+C:\Users\Hakan\Desktop\School\9th Semester\CMPE492\github_repo\Dataset #4>python lstm.py
+Run 1
+-----
+Epoch 1 => Total Loss: 1725.6675997972488
+Epoch 2 => Total Loss: 1607.2176257371902
+Epoch 3 => Total Loss: 1557.852310180664
+Epoch 4 => Total Loss: 1702.0922768115997
+Epoch 5 => Total Loss: 1584.3263771533966
+Epoch 6 => Total Loss: 1574.7557793855667
+Epoch 7 => Total Loss: 1478.718692600727
+Epoch 8 => Total Loss: 1455.1847783327103
+Epoch 9 => Total Loss: 1402.860500574112
+Test Time:  305.40625
+Accuracy 0.5011160714285714
+Test Time:  1228.765625
+Accuracy 0.4684533780011167
+Epoch 10 => Total Loss: 1382.764197230339
+Epoch 11 => Total Loss: 1346.0061939954758
+Epoch 12 => Total Loss: 1329.6306293010712
+Epoch 13 => Total Loss: 1320.5800998210907
+Epoch 14 => Total Loss: 1272.0056276917458
+Epoch 15 => Total Loss: 1269.5568704009056
+Epoch 16 => Total Loss: 1260.6945561170578
+Epoch 17 => Total Loss: 1307.409944653511
+Epoch 18 => Total Loss: 1278.774658381939
+Epoch 19 => Total Loss: 1216.6740989089012
+Test Time:  309.578125
+Accuracy 0.6350446428571429
+Test Time:  1231.578125
+Accuracy 0.5776102735901731
+Epoch 20 => Total Loss: 1225.7648229599
+Epoch 21 => Total Loss: 1197.9121538996696
+Epoch 22 => Total Loss: 1183.7896250486374
+Epoch 23 => Total Loss: 1184.5882487893105
+Epoch 24 => Total Loss: 1185.3004526495934
+Epoch 25 => Total Loss: 1173.6890415549278
+Epoch 26 => Total Loss: 1192.1098836660385
+Epoch 27 => Total Loss: 1156.1637791991234
+Epoch 28 => Total Loss: 1113.7019497156143
+Epoch 29 => Total Loss: 1116.643349826336
+Test Time:  308.765625
+Accuracy 0.5613839285714286
+Test Time:  1229.34375
+Accuracy 0.5541596873255165
+Epoch 30 => Total Loss: 1148.0419064760208
+Epoch 31 => Total Loss: 1150.741203904152
+Epoch 32 => Total Loss: 1075.6621795892715
+Epoch 33 => Total Loss: 1091.4293240308762
+Epoch 34 => Total Loss: 1107.1495385169983
+Epoch 35 => Total Loss: 1095.3870456814766
+Epoch 36 => Total Loss: 1106.015775859356
+Epoch 37 => Total Loss: 1074.7367274165154
+Epoch 38 => Total Loss: 1074.5306868553162
+Epoch 39 => Total Loss: 1077.9373844861984
+Test Time:  308.546875
+Accuracy 0.6316964285714286
+Test Time:  1231.59375
+Accuracy 0.5991066443327749
+Epoch 40 => Total Loss: 1079.517165005207
+Epoch 41 => Total Loss: 1087.9367777109146
+Epoch 42 => Total Loss: 1071.5857388973236
+Epoch 43 => Total Loss: 1065.7560641169548
+Epoch 44 => Total Loss: 1067.933207988739
+Epoch 45 => Total Loss: 1058.4791314005852
+Epoch 46 => Total Loss: 1063.2576203346252
+Epoch 47 => Total Loss: 1098.2695450782776
+Epoch 48 => Total Loss: 1064.498764038086
+Epoch 49 => Total Loss: 1059.2413452863693
+Test Time:  309.8125
+Accuracy 0.6986607142857143
+Test Time:  1246.984375
+Accuracy 0.6638749302065885
+Epoch 50 => Total Loss: 1039.152062177658
+Training Time:  50881.078125
+Test Time:  313.8125
+Accuracy 0.6986607142857143
+Test Time:  1222.59375
+Accuracy 0.6638749302065885
+
+Statistics:
+Average Training Time                -----> 50881.078125
+Average Training Accuracy            -----> 0.6986607142857143
+Maximum Training Accuracy            -----> 0.6986607142857143
+Minimum Training Accuracy            -----> 0.6986607142857143
+Average Testing Time of Training Set -----> 313.8125
+Average Testing Accuracy             -----> 0.6638749302065885
+Maximum Testing Accuracy             -----> 0.6638749302065885
+Minimum Testing Accuracy             -----> 0.6638749302065885
+Average Testing Time of Test Set     -----> 1222.59375

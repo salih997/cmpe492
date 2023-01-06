@@ -13,7 +13,7 @@ number_of_classes = 8      # hidden_size
 sequence_length = 315
 
 # Hyperparameters
-number_of_layers = 1        # num_layers
+number_of_layers = 3        # num_layers
 dropout = float(0.1)
 pos_encode_dimension = 10   # even number
 
@@ -123,7 +123,7 @@ def test(X, Y, model, device):
     correct = 0
     for i, data in enumerate(X):
         prediction = model(data.unsqueeze(0).to(device))
-        if torch.argmax(prediction.detach()) == Y[i]:
+        if torch.argmax(prediction.detach()) == Y[i].to(device):
             correct += 1
     end_time = time.process_time()
     print("Test Time: ", end_time - start_time)

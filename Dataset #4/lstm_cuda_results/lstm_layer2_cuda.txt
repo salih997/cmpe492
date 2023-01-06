@@ -1,0 +1,158 @@
+Run 1
+-----
+Epoch 1 => Total Loss: 1705.7033587694168
+Epoch 2 => Total Loss: 1512.2510021924973
+Epoch 3 => Total Loss: 1451.681146621704
+Epoch 4 => Total Loss: 1388.9408832788467
+Epoch 5 => Total Loss: 1373.6383128762245
+Epoch 6 => Total Loss: 1302.6012748479843
+Epoch 7 => Total Loss: 1273.1101233363152
+Epoch 8 => Total Loss: 1282.4201998710632
+Epoch 9 => Total Loss: 1304.1327818632126
+Test Time:  0.765625
+Accuracy 0.5122767857142857
+Test Time:  2.859375
+Accuracy 0.5027917364600781
+Epoch 10 => Total Loss: 1249.7705410718918
+Epoch 11 => Total Loss: 1209.1094162464142
+Epoch 12 => Total Loss: 1200.677320241928
+Epoch 13 => Total Loss: 1217.6501137018204
+Epoch 14 => Total Loss: 1203.3453540205956
+Epoch 15 => Total Loss: 1193.047472000122
+Epoch 16 => Total Loss: 1155.5056272745132
+Epoch 17 => Total Loss: 1162.8163079023361
+Epoch 18 => Total Loss: 1152.6171658039093
+Epoch 19 => Total Loss: 1316.8466503620148
+Test Time:  0.78125
+Accuracy 0.5390625
+Test Time:  2.859375
+Accuracy 0.5150753768844221
+Epoch 20 => Total Loss: 1290.877067744732
+Epoch 21 => Total Loss: 1237.5209303498268
+Epoch 22 => Total Loss: 1177.2219564318657
+Epoch 23 => Total Loss: 1160.854514837265
+Epoch 24 => Total Loss: 1151.214149594307
+Epoch 25 => Total Loss: 1136.192335009575
+Epoch 26 => Total Loss: 1121.977341890335
+Epoch 27 => Total Loss: 1169.203183233738
+Epoch 28 => Total Loss: 1111.1818199753761
+Epoch 29 => Total Loss: 1119.7837896943092
+Test Time:  0.765625
+Accuracy 0.6540178571428571
+Test Time:  2.875
+Accuracy 0.6016192071468454
+Epoch 30 => Total Loss: 1123.8611054420471
+Epoch 31 => Total Loss: 1117.920782327652
+Epoch 32 => Total Loss: 1101.6832961440086
+Epoch 33 => Total Loss: 1099.203735768795
+Epoch 34 => Total Loss: 1093.763523697853
+Epoch 35 => Total Loss: 1081.4153100848198
+Epoch 36 => Total Loss: 1104.5718812942505
+Epoch 37 => Total Loss: 1114.5450258851051
+Epoch 38 => Total Loss: 1081.769791007042
+Epoch 39 => Total Loss: 1070.2744530439377
+Test Time:  0.765625
+Accuracy 0.7020089285714286
+Test Time:  2.875
+Accuracy 0.6468453378001117
+Epoch 40 => Total Loss: 1065.1512396335602
+Epoch 41 => Total Loss: 1063.1425492167473
+Epoch 42 => Total Loss: 1072.8262911438942
+Epoch 43 => Total Loss: 1088.9052556753159
+Epoch 44 => Total Loss: 1072.6533893346786
+Epoch 45 => Total Loss: 1049.0938282608986
+Epoch 46 => Total Loss: 1040.379631280899
+Epoch 47 => Total Loss: 1049.2544966936111
+Epoch 48 => Total Loss: 1080.210440993309
+Epoch 49 => Total Loss: 1076.6937814354897
+Test Time:  0.78125
+Accuracy 0.6774553571428571
+Test Time:  2.90625
+Accuracy 0.649357900614182
+Epoch 50 => Total Loss: 1093.8878220319748
+Epoch 51 => Total Loss: 1044.877663910389
+Epoch 52 => Total Loss: 1051.6816881895065
+Epoch 53 => Total Loss: 1283.183959543705
+Epoch 54 => Total Loss: 1110.5904564857483
+Epoch 55 => Total Loss: 1058.0537730455399
+Epoch 56 => Total Loss: 1034.4564310908318
+Epoch 57 => Total Loss: 1027.8897274136543
+Epoch 58 => Total Loss: 1000.4632083773613
+Epoch 59 => Total Loss: 984.3828505277634
+Test Time:  0.796875
+Accuracy 0.7142857142857143
+Test Time:  2.875
+Accuracy 0.6786711334450027
+Epoch 60 => Total Loss: 980.8768245577812
+Epoch 61 => Total Loss: 1001.713212788105
+Epoch 62 => Total Loss: 1044.3510670661926
+Epoch 63 => Total Loss: 1015.7416608333588
+Epoch 64 => Total Loss: 1036.6269219517708
+Epoch 65 => Total Loss: 1023.4241748452187
+Epoch 66 => Total Loss: 983.821520447731
+Epoch 67 => Total Loss: 1012.0628423690796
+Epoch 68 => Total Loss: 980.379985511303
+Epoch 69 => Total Loss: 982.9393905997276
+Test Time:  0.78125
+Accuracy 0.6919642857142857
+Test Time:  3.0
+Accuracy 0.6853713009491904
+Epoch 70 => Total Loss: 1024.8026636838913
+Epoch 71 => Total Loss: 987.3685081005096
+Epoch 72 => Total Loss: 980.551016330719
+Epoch 73 => Total Loss: 1063.0852999687195
+Epoch 74 => Total Loss: 1053.4326214194298
+Epoch 75 => Total Loss: 995.5457211732864
+Epoch 76 => Total Loss: 953.6103326678276
+Epoch 77 => Total Loss: 938.7225477099419
+Epoch 78 => Total Loss: 953.0849031805992
+Epoch 79 => Total Loss: 953.6463241577148
+Test Time:  0.796875
+Accuracy 0.7522321428571429
+Test Time:  2.859375
+Accuracy 0.7082635399218313
+Epoch 80 => Total Loss: 956.1727980971336
+Epoch 81 => Total Loss: 947.0997327566147
+Epoch 82 => Total Loss: 979.3943873047829
+Epoch 83 => Total Loss: 950.2017633914948
+Epoch 84 => Total Loss: 979.6071701049805
+Epoch 85 => Total Loss: 954.2959528565407
+Epoch 86 => Total Loss: 949.2652450203896
+Epoch 87 => Total Loss: 934.8099734187126
+Epoch 88 => Total Loss: 922.2501018047333
+Epoch 89 => Total Loss: 958.5078276991844
+Test Time:  0.796875
+Accuracy 0.7678571428571429
+Test Time:  2.890625
+Accuracy 0.7222222222222222
+Epoch 90 => Total Loss: 981.7984693646431
+Epoch 91 => Total Loss: 954.4058609604836
+Epoch 92 => Total Loss: 952.7255962491035
+Epoch 93 => Total Loss: 964.9469308257103
+Epoch 94 => Total Loss: 926.3718264698982
+Epoch 95 => Total Loss: 926.9677330255508
+Epoch 96 => Total Loss: 922.041403234005
+Epoch 97 => Total Loss: 939.6697147488594
+Epoch 98 => Total Loss: 921.4518340826035
+Epoch 99 => Total Loss: 919.843956887722
+Test Time:  0.78125
+Accuracy 0.8102678571428571
+Test Time:  2.875
+Accuracy 0.7635399218313791
+Epoch 100 => Total Loss: 903.3704538345337
+Training Time:  321.75
+Test Time:  0.71875
+Accuracy 0.8102678571428571
+Test Time:  2.90625
+Accuracy 0.7635399218313791
+
+Statistics:
+Average Training Time                -----> 321.75
+Average Training Accuracy            -----> 0.8102678571428571
+Maximum Training Accuracy            -----> 0.8102678571428571
+Minimum Training Accuracy            -----> 0.8102678571428571
+Average Testing Time of Training Set -----> 0.71875
+Average Testing Accuracy             -----> 0.7635399218313791
+Maximum Testing Accuracy             -----> 0.7635399218313791
+Minimum Testing Accuracy             -----> 0.7635399218313791
+Average Testing Time of Test Set     -----> 2.90625
