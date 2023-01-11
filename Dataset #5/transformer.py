@@ -13,7 +13,8 @@ from pandas.core.common import flatten
 
 # Constant Params
 number_of_features = 1      # input_size
-sequence_length = 30
+sequence_length = 15
+output_number_of_features = 1
 
 # Hyperparameters
 number_of_layers = 1        # num_layers
@@ -42,15 +43,20 @@ class Transformer(nn.Module):
     def __init__(self):
         super(Transformer, self).__init__()
         self.pos_encoder = PositionalEncoding(pos_encode_dimension, dropout, sequence_length)
-        self.layers = nn.TransformerEncoderLayer(d_model=(pos_encode_dimension*number_of_features), nhead=number_of_head, batch_first=True)
-        self.transformer = nn.TransformerEncoder(self.layers, num_layers=number_of_layers)
-        self.decoder = nn.Linear((pos_encode_dimension*number_of_features), 1)
+        encoder_layer = nn.TransformerEncoderLayer(d_model=(pos_encode_dimension*number_of_features), nhead=number_of_head, batch_first=True)
+        self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=number_of_layers)
+        self.decoder_input_layer = nn.Linear(output_number_of_features, (pos_encode_dimension*number_of_features))
+        decoder_layer = nn.TransformerDecoderLayer(d_model=(pos_encode_dimension*number_of_features), nhead=number_of_head, batch_first=True)
+        self.decoder = nn.TransformerDecoder(decoder_layer, num_layers=number_of_layers)
+        self.linear_mapping = nn.Linear((pos_encode_dimension*number_of_features), output_number_of_features)
 
 
-    def forward(self, X):
-        X = self.pos_encoder(X)
-        encoder_output = self.transformer(X)
-        output = self.decoder(encoder_output[:, -1, :])
+    def forward(self, src, tgt):
+        src = self.pos_encoder(src)
+        encoder_output = self.encoder(src)
+        tgt = self.decoder_input_layer(tgt)
+        decoder_output = self.decoder(tgt=tgt, memory=encoder_output)
+        output = self.linear_mapping(decoder_output)
         return output
 
 
@@ -77,6 +83,8 @@ def take_data(input_path):
     df[df.columns[0]] = pd.to_datetime(df[df.columns[0]])
     df.set_index(df.columns[0], inplace=True)
     
+    plt.plot(range(df.values.shape[0]), df.values, zorder=0)
+    
     data = []
     for i in range(df.values.shape[0]-sequence_length):
         data.append(df.values[i:i+sequence_length+1])
@@ -93,14 +101,15 @@ def take_data(input_path):
     test_labels = test_data[:, -1, :]
     test_data = test_data[:, :-1, :]
     
-    min_value = train_data.min()
-    max_value = train_data.max()
-    train_data = (train_data - min_value) / (max_value - min_value)
-    train_labels = (train_labels - min_value) / (max_value - min_value)
-    test_data = (test_data - min_value) / (max_value - min_value)
-    test_labels = (test_labels - min_value) / (max_value - min_value)
+    # Scale data
+    train_data_min, train_data_max = train_data.min(), train_data.max()
+    train_data = (train_data - train_data_min) / (train_data_max - train_data_min)
+    test_data = (test_data - train_data_min) / (train_data_max - train_data_min)
+    train_labels_min, train_labels_max = train_labels.min(), train_labels.max()
+    train_labels = (train_labels - train_labels_min) / (train_labels_max - train_labels_min)
+    test_labels = (test_labels - train_labels_min) / (train_labels_max - train_labels_min)
     
-    return train_data, train_labels, test_data, test_labels, df
+    return train_data, train_labels, test_data, test_labels, train_labels_min, train_labels_max, dd[:train_data.shape[0]], dd[train_data.shape[0]:]
 
 
 def train(X, Y, model, optimizer, loss_function, device, epoch=50):
@@ -109,7 +118,7 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
     for e in range(1, epoch+1):
         current_loss = 0
         for i, data in enumerate(X):
-            prediction = model(data.unsqueeze(0).to(device))
+            prediction = model(data.unsqueeze(0).to(device), data[-1].unsqueeze(0).unsqueeze(0).to(device))
             loss = loss_function(prediction.ravel(), Y[i].to(device))
             optimizer.zero_grad()
             loss.backward()
@@ -123,15 +132,15 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
     return model, (end_time - start_time)
 
 
-def test(X, Y, model, device):
+def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
 
     start_time = time.process_time()
-    
     predictions = []
     for data in X:
-        prediction = model(data.unsqueeze(0).to(device))
+        prediction = model(data.unsqueeze(0).to(device), data[-1].unsqueeze(0).unsqueeze(0).to(device))
         predictions.append(prediction.ravel().tolist())
-    
+    Y = (Y * (max_value - min_value)) + min_value
+    predictions = (predictions * (max_value - min_value)) + min_value
     r2 = r2_score(Y.detach().numpy(), predictions)
     mse = mean_squared_error(Y.detach().numpy(), predictions)
     end_time = time.process_time()
@@ -139,24 +148,15 @@ def test(X, Y, model, device):
     print("R2 Score: ", r2)
     print("MSE: ", mse)
 
-    return r2, mse, (end_time - start_time), predictions
+    if index == 0:      # plot only the first run
+        plt.scatter(dd+sequence_length, list(flatten(predictions)), c=plt_color, marker='x', s=10, zorder=1)
 
+    return r2, mse, (end_time - start_time)
 
+    
 if __name__ == "__main__":
 
-    train_data, train_labels, test_data, test_labels, data_df = take_data("data.csv")
-
-    ##### Data Visualization #####
-    
-    # plt.figure(1)
-    # colormap = ['b','g','r']
-    # for i, data in enumerate(train_data):
-    #     plt.plot(range(len(data)), data, c=colormap[train_labels[i][0]])
-
-    # plt.figure(2)
-    # for i, data in enumerate(test_data):
-    #     plt.plot(range(len(data)), data, c=colormap[test_labels[i][0]])
-    # plt.show()
+    train_data, train_labels, test_data, test_labels, min_value, max_value, dd_train, dd_test = take_data("data.csv")
 
     if torch.cuda.is_available():
         device = torch.device("cuda")
@@ -170,7 +170,6 @@ if __name__ == "__main__":
     test_r2_score_list = []
     test_mse_list = []
     test_set_testing_time_list = []
-    a = []
 
     for i in range(1):         # 10 runs
         print("Run", i+1)
@@ -181,17 +180,15 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=25)
+        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=5)
         training_time_list.append(training_time)
 
-        train_r2_score, train_mse, train_set_testing_time, train_predictions = test(train_data, train_labels, m, device)
-        a.append(train_predictions)
+        train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
         train_r2_score_list.append(train_r2_score)
         train_mse_list.append(train_mse)
         train_set_testing_time_list.append(train_set_testing_time)
 
-        test_r2_score, test_mse, test_set_testing_time, test_predictions = test(test_data, test_labels, m, device)
-        a.append(test_predictions)
+        test_r2_score, test_mse, test_set_testing_time = test(test_data, test_labels, m, min_value, max_value, dd_test, 'tomato', i, device)
         test_r2_score_list.append(test_r2_score)
         test_mse_list.append(test_mse)
         test_set_testing_time_list.append(test_set_testing_time)
@@ -207,8 +204,5 @@ if __name__ == "__main__":
     print("Average Testing MSE                  ----->", sum(test_mse_list) / len(test_mse_list))
     print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
 
-    plt.plot(range(data_df.values.shape[0]), data_df.values, zorder=0)
-    plt.scatter(range(int((data_df.values.shape[0]-sequence_length) * (4/5))), list(flatten(a[0])), c='blue', marker='x', s=10, zorder=1)
-    plt.scatter(range(int((data_df.values.shape[0]-sequence_length) * (4/5)), (data_df.values.shape[0]-sequence_length)), list(flatten(a[1])), c='tomato', marker='x', s=10, zorder=1)
     plt.show()
 
