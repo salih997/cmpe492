@@ -123,7 +123,7 @@ if __name__ == "__main__":
     test_mse_list = []
     test_set_testing_time_list = []
 
-    for i in range(1):         # 10 runs
+    for i in range(10):         # 10 runs
         print("Run", i+1)
         print("-----")
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=5)
+        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=60)
         training_time_list.append(training_time)
 
         train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
