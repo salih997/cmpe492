@@ -139,17 +139,18 @@ def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
     for data in X:
         prediction = model(data.unsqueeze(0).to(device), data[-1].unsqueeze(0).unsqueeze(0).to(device))
         predictions.append(prediction.ravel().tolist())
+    predictions = torch.tensor(np.array(predictions), dtype=torch.float32)
     Y = (Y * (max_value - min_value)) + min_value
     predictions = (predictions * (max_value - min_value)) + min_value
-    r2 = r2_score(Y.detach().numpy(), predictions)
-    mse = mean_squared_error(Y.detach().numpy(), predictions)
+    r2 = r2_score(Y.detach().numpy(), predictions.cpu().detach().numpy())
+    mse = mean_squared_error(Y.detach().numpy(), predictions.cpu().detach().numpy())
     end_time = time.process_time()
     print("Test Time: ", end_time - start_time)
     print("R2 Score: ", r2)
     print("MSE: ", mse)
 
     if index == 0:      # plot only the first run
-        plt.scatter(dd+sequence_length, list(flatten(predictions)), c=plt_color, marker='x', s=10, zorder=1)
+        plt.scatter(dd+sequence_length, predictions.ravel().tolist(), c=plt_color, marker='x', s=10, zorder=1)
 
     return r2, mse, (end_time - start_time)
 
