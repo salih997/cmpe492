@@ -79,8 +79,8 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             loss.backward()
             optimizer.step()
             current_loss = current_loss + loss.item()
-        # if e % 10 == 0:
-        print("Epoch", e, "=> Total Loss:", current_loss)
+        if e % 10 == 0:
+            print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
 
