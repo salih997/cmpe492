@@ -93,15 +93,15 @@ def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
     predictions = model(X.to(device))
     Y = (Y * (max_value - min_value)) + min_value
     predictions = (predictions * (max_value - min_value)) + min_value
-    r2 = r2_score(Y.detach().numpy(), predictions.detach().numpy())
-    mse = mean_squared_error(Y.detach().numpy(), predictions.detach().numpy())
+    r2 = r2_score(Y.detach().numpy(), predictions.cpu().detach().numpy())
+    mse = mean_squared_error(Y.detach().numpy(), predictions.cpu().detach().numpy())
     end_time = time.process_time()
     print("Test Time: ", end_time - start_time)
     print("R2 Score: ", r2)
     print("MSE: ", mse)
     
     if index == 0:      # plot only the first run
-        plt.scatter(dd, predictions.ravel().tolist(), c=plt_color, marker='x', s=10, zorder=1)
+        plt.scatter(dd+sequence_length, predictions.ravel().tolist(), c=plt_color, marker='x', s=10, zorder=1)
 
     return r2, mse, (end_time - start_time)
 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     test_mse_list = []
     test_set_testing_time_list = []
 
-    for i in range(1):         # 10 runs
+    for i in range(10):         # 10 runs
         print("Run", i+1)
         print("-----")
 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=5)
+        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=120)
         training_time_list.append(training_time)
 
         train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)

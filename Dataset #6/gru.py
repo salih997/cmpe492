@@ -101,7 +101,7 @@ def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
     print("MSE: ", mse)
 
     if index == 0:      # plot only the first run
-        plt.scatter(dd, predictions.ravel().tolist(), c=plt_color, marker='x', s=10, zorder=1)
+        plt.scatter(dd+sequence_length, predictions.ravel().tolist(), c=plt_color, marker='x', s=10, zorder=1)
 
     return r2, mse, (end_time - start_time)
 
