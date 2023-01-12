@@ -93,8 +93,8 @@ def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
     predictions = model(X.to(device))
     Y = (Y * (max_value - min_value)) + min_value
     predictions = (predictions * (max_value - min_value)) + min_value
-    r2 = r2_score(Y.detach().numpy(), predictions.detach().numpy())
-    mse = mean_squared_error(Y.detach().numpy(), predictions.detach().numpy())
+    r2 = r2_score(Y.detach().numpy(), predictions.cpu().detach().numpy())
+    mse = mean_squared_error(Y.detach().numpy(), predictions.cpu().detach().numpy())
     end_time = time.process_time()
     print("Test Time: ", end_time - start_time)
     print("R2 Score: ", r2)
