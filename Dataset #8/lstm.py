@@ -9,12 +9,12 @@ import numpy as np
 
 
 # Constant Params
-number_of_features = 1      # input_size
+number_of_features = 5      # input_size
 sequence_length = 300
 
 # Hyperparameters
-number_of_layers = 1        # num_layers
-hidden_dimension = 8        # hidden_size
+number_of_layers = 2        # num_layers
+hidden_dimension = 256        # hidden_size
 
 # batch_first = True
 # batch - sequence - feature    => input shape
@@ -38,33 +38,34 @@ def take_data(input_path):
     df[df.columns[0]] = pd.to_datetime(df[df.columns[0]])
     df.set_index(df.columns[0], inplace=True)
     
-    plt.plot(range(df.values.shape[0]), df.values, zorder=0)
+    plt.plot(range(df.values.shape[0]), df['Zone 1 Power Consumption'].values, zorder=0)
     
+    df_X = df[['Temperature', 'Humidity', 'Wind Speed', 'general diffuse flows', 'diffuse flows']].values
+    df_Y = df[['Zone 1 Power Consumption']].values
     data = []
+    labels = []
     for i in range(df.values.shape[0]-sequence_length):
-        data.append(df.values[i:i+sequence_length+1])
+        data.append(df_X[i:i+sequence_length])
+        labels.append(df_Y[i+sequence_length])
     data = torch.tensor(np.array(data), dtype=torch.float32)
+    labels = torch.tensor(np.array(labels), dtype=torch.float32)
     
     # Shuffle data
     dd = torch.randperm(data.size()[0])
     data = data[dd]
+    labels = labels[dd]
     
     train_data = data[:int(data.size()[0] * (4/5))]
-    train_labels = train_data[:, -1, :]
-    train_data = train_data[:, :-1, :]
+    train_labels = labels[:int(data.size()[0] * (4/5))]
     test_data = data[int(data.size()[0] * (4/5)):]
-    test_labels = test_data[:, -1, :]
-    test_data = test_data[:, :-1, :]
+    test_labels = labels[int(data.size()[0] * (4/5)):]
     
     # Scale data
-    train_data_min, train_data_max = train_data.min(), train_data.max()
-    train_data = (train_data - train_data_min) / (train_data_max - train_data_min)
-    test_data = (test_data - train_data_min) / (train_data_max - train_data_min)
-    train_labels_min, train_labels_max = train_labels.min(), train_labels.max()
-    train_labels = (train_labels - train_labels_min) / (train_labels_max - train_labels_min)
-    test_labels = (test_labels - train_labels_min) / (train_labels_max - train_labels_min)
+    mean, std = train_labels.mean(), train_labels.std()
+    train_labels = (train_labels - mean) / std
+    test_labels = (test_labels - mean) / std
     
-    return train_data, train_labels, test_data, test_labels, train_labels_min, train_labels_max, dd[:train_data.shape[0]], dd[train_data.shape[0]:]
+    return train_data, train_labels, test_data, test_labels, mean, std, dd[:train_data.shape[0]], dd[train_data.shape[0]:]
 
 
 def train(X, Y, model, optimizer, loss_function, device, epoch=50):
@@ -83,16 +84,20 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
-    
+
     return model, (end_time - start_time)
 
 
-def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
+def test(X, Y, model, mean, std, dd, plt_color, index, device):
 
     start_time = time.process_time()
-    predictions = model(X.to(device))
-    Y = (Y * (max_value - min_value)) + min_value
-    predictions = (predictions * (max_value - min_value)) + min_value
+    predictions = []
+    for data in X:
+        prediction = model(data.unsqueeze(0).to(device))
+        predictions.append(prediction.ravel().tolist())
+    predictions = torch.tensor(np.array(predictions), dtype=torch.float32)
+    Y = (Y * std) + mean
+    predictions = (predictions * std) + mean
     r2 = r2_score(Y.detach().numpy(), predictions.cpu().detach().numpy())
     mse = mean_squared_error(Y.detach().numpy(), predictions.cpu().detach().numpy())
     end_time = time.process_time()
@@ -108,7 +113,7 @@ def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
 
 if __name__ == "__main__":
     
-    train_data, train_labels, test_data, test_labels, min_value, max_value, dd_train, dd_test = take_data("data.csv")
+    train_data, train_labels, test_data, test_labels, mean, std, dd_train, dd_test = take_data("data.csv")
 
     if torch.cuda.is_available():
         device = torch.device("cuda")
@@ -123,7 +128,7 @@ if __name__ == "__main__":
     test_mse_list = []
     test_set_testing_time_list = []
 
-    for i in range(10):         # 10 runs
+    for i in range(1):         # 10 runs
         print("Run", i+1)
         print("-----")
 
@@ -132,15 +137,15 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=150)
+        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=10)
         training_time_list.append(training_time)
 
-        train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
+        train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, mean, std, dd_train, 'blue', i, device)
         train_r2_score_list.append(train_r2_score)
         train_mse_list.append(train_mse)
         train_set_testing_time_list.append(train_set_testing_time)
 
-        test_r2_score, test_mse, test_set_testing_time = test(test_data, test_labels, m, min_value, max_value, dd_test, 'tomato', i, device)
+        test_r2_score, test_mse, test_set_testing_time = test(test_data, test_labels, m, mean, std, dd_test, 'tomato', i, device)
         test_r2_score_list.append(test_r2_score)
         test_mse_list.append(test_mse)
         test_set_testing_time_list.append(test_set_testing_time)
@@ -155,6 +160,6 @@ if __name__ == "__main__":
     print("Average Testing R2 Score             ----->", sum(test_r2_score_list) / len(test_r2_score_list))
     print("Average Testing MSE                  ----->", sum(test_mse_list) / len(test_mse_list))
     print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
-
+    
     plt.show()
 
