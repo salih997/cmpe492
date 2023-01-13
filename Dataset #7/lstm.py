@@ -80,8 +80,8 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             loss.backward()
             optimizer.step()
             current_loss = current_loss + loss.item()
-        # if e % 10 == 0:
-        print("Epoch", e, "=> Total Loss:", current_loss)
+        if e % 10 == 0:
+            print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
 
@@ -91,7 +91,11 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
 def test(X, Y, model, mean, std, dd, plt_color, index, device):
 
     start_time = time.process_time()
-    predictions = model(X.to(device))
+    predictions = []
+    for data in X:
+        prediction = model(data.unsqueeze(0).to(device))
+        predictions.append(prediction.ravel().tolist())
+    predictions = torch.tensor(np.array(predictions), dtype=torch.float32)
     Y = (Y * std) + mean
     predictions = (predictions * std) + mean
     r2 = r2_score(Y.detach().numpy(), predictions.cpu().detach().numpy())
@@ -124,7 +128,7 @@ if __name__ == "__main__":
     test_mse_list = []
     test_set_testing_time_list = []
 
-    for i in range(1):         # 10 runs
+    for i in range(10):         # 10 runs
         print("Run", i+1)
         print("-----")
 
@@ -133,7 +137,7 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=20)
+        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=10)
         training_time_list.append(training_time)
 
         train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, mean, std, dd_train, 'blue', i, device)
