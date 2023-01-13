@@ -10,11 +10,11 @@ import numpy as np
 
 # Constant Params
 number_of_features = 1      # input_size
-sequence_length = 15
+sequence_lengthS = [200]
 
 # Hyperparameters
-number_of_layers = 2        # num_layers
-hidden_dimension = 8        # hidden_size
+number_of_layersS = [3]        # num_layers
+hidden_dimensionS = [8]       # hidden_size
 
 # batch_first = True
 # batch - sequence - feature    => input shape
@@ -23,7 +23,7 @@ hidden_dimension = 8        # hidden_size
 
 class GRU(nn.Module):
 
-    def __init__(self):
+    def __init__(self, number_of_layers, hidden_dimension):
         super(GRU, self).__init__()
         self.gru = nn.GRU(number_of_features, hidden_dimension, num_layers=number_of_layers, batch_first=True)
         self.linear = nn.Linear(hidden_dimension, 1)
@@ -33,7 +33,7 @@ class GRU(nn.Module):
         return self.linear(output[:, -1, :])
 
 
-def take_data(input_path):
+def take_data(input_path, sequence_length):
     df = pd.read_csv(input_path)
     df[df.columns[0]] = pd.to_datetime(df[df.columns[0]])
     df.set_index(df.columns[0], inplace=True)
@@ -67,7 +67,7 @@ def take_data(input_path):
     return train_data, train_labels, test_data, test_labels, train_labels_min, train_labels_max, dd[:train_data.shape[0]], dd[train_data.shape[0]:]
 
 
-def train(X, Y, model, optimizer, loss_function, device, epoch=50):
+def train(X, Y, X_test, Y_test, model, optimizer, loss_function, device, min_value, max_value, epoch=50):
 
     start_time = time.process_time()
     for e in range(1, epoch+1):
@@ -79,8 +79,8 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             loss.backward()
             optimizer.step()
             current_loss = current_loss + loss.item()
-        # if e % 10 == 0:
-        print("Epoch", e, "=> Total Loss:", current_loss)
+        if e % 10 == 0:
+            print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
 
@@ -96,65 +96,73 @@ def test(X, Y, model, min_value, max_value, dd, plt_color, index, device):
     r2 = r2_score(Y.detach().numpy(), predictions.cpu().detach().numpy())
     mse = mean_squared_error(Y.detach().numpy(), predictions.cpu().detach().numpy())
     end_time = time.process_time()
-    print("Test Time: ", end_time - start_time)
     print("R2 Score: ", r2)
     print("MSE: ", mse)
 
     if index == 0:      # plot only the first run
-        plt.scatter(dd+sequence_length, predictions.ravel().tolist(), c=plt_color, marker='x', s=10, zorder=1)
+        plt.scatter(dd, predictions.ravel().tolist(), c=plt_color, marker='x', s=10, zorder=1)
 
     return r2, mse, (end_time - start_time)
 
 
+
 if __name__ == "__main__":
     
-    train_data, train_labels, test_data, test_labels, min_value, max_value, dd_train, dd_test = take_data("data.csv")
+   
+    for sequence_length in sequence_lengthS:
+        for number_of_layers in number_of_layersS:
+            for hidden_dimension in hidden_dimensionS:
 
-    if torch.cuda.is_available():
-        device = torch.device("cuda")
-    else:
-        device = torch.device("cpu")
+                print("Stats:\tsequence_length->", sequence_length, "\tlayer->",number_of_layers, "\thidden_dim->", hidden_dimension)
+                
+                train_data, train_labels, test_data, test_labels, min_value, max_value, dd_train, dd_test = take_data("data.csv", sequence_length)
 
-    training_time_list = []
-    train_r2_score_list = []
-    train_mse_list = []
-    train_set_testing_time_list = []
-    test_r2_score_list = []
-    test_mse_list = []
-    test_set_testing_time_list = []
+                if torch.cuda.is_available():
+                    device = torch.device("cuda")
+                else:
+                    device = torch.device("cpu")
 
-    for i in range(1):         # 10 runs
-        print("Run", i+1)
-        print("-----")
+                training_time_list = []
+                train_r2_score_list = []
+                train_mse_list = []
+                train_set_testing_time_list = []
+                test_r2_score_list = []
+                test_mse_list = []
+                test_set_testing_time_list = []
 
-        m = GRU()
-        m.to(device)
+                for i in range(10):         # 10 runs
 
-        optim = o.Adam(m.parameters(), lr=0.001)
-        lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=5)
-        training_time_list.append(training_time)
 
-        train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
-        train_r2_score_list.append(train_r2_score)
-        train_mse_list.append(train_mse)
-        train_set_testing_time_list.append(train_set_testing_time)
+                    m = GRU(number_of_layers, hidden_dimension)
+                    m.to(device)
 
-        test_r2_score, test_mse, test_set_testing_time = test(test_data, test_labels, m, min_value, max_value, dd_test, 'tomato', i, device)
-        test_r2_score_list.append(test_r2_score)
-        test_mse_list.append(test_mse)
-        test_set_testing_time_list.append(test_set_testing_time)
+                    optim = o.Adam(m.parameters(), lr=0.001)
+                    lf = nn.MSELoss()
+                    m, training_time = train(train_data, train_labels, test_data, test_labels, m, optim, lf, device, min_value, max_value, epoch=80)
+                    training_time_list.append(training_time)
 
-        print()
+                    train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
+                    train_r2_score_list.append(train_r2_score)
+                    train_mse_list.append(train_mse)
+                    train_set_testing_time_list.append(train_set_testing_time)
 
-    print("Statistics:")
-    print("Average Training Time                ----->", sum(training_time_list) / len(training_time_list))
-    print("Average Training R2 Score            ----->", sum(train_r2_score_list) / len(train_r2_score_list))
-    print("Average Training MSE                 ----->", sum(train_mse_list) / len(train_mse_list))
-    print("Average Testing Time of Training Set ----->", sum(train_set_testing_time_list) / len(train_set_testing_time_list))
-    print("Average Testing R2 Score             ----->", sum(test_r2_score_list) / len(test_r2_score_list))
-    print("Average Testing MSE                  ----->", sum(test_mse_list) / len(test_mse_list))
-    print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
-    
-    plt.show()
+                    test_r2_score, test_mse, test_set_testing_time = test(test_data, test_labels, m, min_value, max_value, dd_test, 'tomato', i, device)
+                    test_r2_score_list.append(test_r2_score)
+                    test_mse_list.append(test_mse)
+                    test_set_testing_time_list.append(test_set_testing_time)
 
+                    print()
+
+
+                print("Statistics:")
+                print("Average Training Time                ----->", sum(training_time_list) / len(training_time_list))
+                print("Training R2 Score            ----->", sum(train_r2_score_list) / len(train_r2_score_list))
+                print("Training MSE                 ----->", sum(train_mse_list) / len(train_mse_list))
+                print("Average Testing Time of Training Set ----->", sum(train_set_testing_time_list) / len(train_set_testing_time_list))
+                print("Testing R2 Score             ----->", sum(test_r2_score_list) / len(test_r2_score_list))
+                print("Testing MSE                  ----->", sum(test_mse_list) / len(test_mse_list))
+                print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
+                
+
+
+                plt.show()

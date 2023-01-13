@@ -1,0 +1,205 @@
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 4
+R2 Score:  0.6302762582054404
+MSE:  5.9013433
+R2 Score:  0.6132928029410321
+MSE:  6.2127876
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 8
+R2 Score:  0.6401523819534324
+MSE:  5.79055
+R2 Score:  0.6220200365905357
+MSE:  5.8574905
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 16
+R2 Score:  0.6019979863908294
+MSE:  6.460694
+R2 Score:  0.5804931069035801
+MSE:  6.2838316
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 32
+R2 Score:  0.6442008767981793
+MSE:  5.7572403
+R2 Score:  0.5845295100908305
+MSE:  6.3129125
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 64
+R2 Score:  0.6331009774521053
+MSE:  5.8837657
+R2 Score:  0.616303788866397
+MSE:  6.0257387
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 128
+R2 Score:  0.6426145576179361
+MSE:  5.777169
+R2 Score:  0.62732031174815
+MSE:  5.66274
+
+---
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 4
+R2 Score:  0.6424382648649711
+MSE:  5.680117
+R2 Score:  0.6205582918906829
+MSE:  6.2126746
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 8
+R2 Score:  0.6334744843742015
+MSE:  5.8959975
+R2 Score:  0.6595898193439848
+MSE:  5.290029
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 16
+R2 Score:  0.6065089940614454
+MSE:  6.1957245
+R2 Score:  0.6150958636104815
+MSE:  6.4896884
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 32
+R2 Score:  0.6295487826871791
+MSE:  5.851354
+R2 Score:  0.6440321306848191
+MSE:  5.9566803
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 64
+R2 Score:  0.6400674357081305
+MSE:  5.879178
+R2 Score:  0.6069452641463009
+MSE:  5.727071
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 128
+R2 Score:  0.6386019847112887
+MSE:  5.681882
+R2 Score:  0.6484947999772921
+MSE:  5.98277
+
+---
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 4
+R2 Score:  0.5004425063650288
+MSE:  7.8893867
+R2 Score:  0.49599076516729323
+MSE:  8.440654
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 8
+R2 Score:  0.6303442091848948
+MSE:  5.9362774
+R2 Score:  0.6308968897228193
+MSE:  5.756222
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 16
+R2 Score:  0.6244240451160894
+MSE:  5.8648615
+R2 Score:  0.6267319129875949
+MSE:  6.502532
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 32
+R2 Score:  0.6192033881813654
+MSE:  6.096146
+R2 Score:  0.6061932683151137
+MSE:  6.2409563
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 64
+R2 Score:  0.6380451613887741
+MSE:  5.795402
+R2 Score:  0.614862386627775
+MSE:  6.0937424
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 128
+R2 Score:  0.6269743934811391
+MSE:  5.9477787
+R2 Score:  0.6288208783739621
+MSE:  5.990647
+
+---
+===========
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 4
+R2 Score:  0.6319887534231591
+MSE:  5.910009
+R2 Score:  0.6487327662574098
+MSE:  5.58077
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 8
+R2 Score:  0.6279075951907244
+MSE:  5.858631
+R2 Score:  0.6572209655504049
+MSE:  5.848982
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 16
+R2 Score:  0.6355718866105573
+MSE:  5.7641363
+R2 Score:  0.6418802202875588
+MSE:  6.036568
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 32
+R2 Score:  0.6306397461459052
+MSE:  5.8873305
+R2 Score:  0.6428359578807521
+MSE:  5.8401723
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 64
+R2 Score:  0.6182259344528166
+MSE:  6.101791
+R2 Score:  0.6588490895522947
+MSE:  5.5365024
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 4
+R2 Score:  0.6279780321825288
+MSE:  6.060857
+R2 Score:  0.5696816874987267
+MSE:  6.4464216
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 8
+R2 Score:  0.6428466146230196
+MSE:  5.6753325
+R2 Score:  0.6228952560955578
+MSE:  6.2609515
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 16
+R2 Score:  0.6304642769298452
+MSE:  5.88145
+R2 Score:  0.6389179967457818
+MSE:  5.9574685
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 32
+R2 Score:  0.5986013583981554
+MSE:  6.417396
+R2 Score:  0.5740181563576765
+MSE:  6.9027357
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 64
+R2 Score:  0.6157031271928292
+MSE:  6.1580915
+R2 Score:  0.6111395818546076
+MSE:  6.1860833
+
+---
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 4
+R2 Score:  0.6301705946922247
+MSE:  5.9359717
+R2 Score:  0.6530892102750356
+MSE:  5.50783
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 8
+R2 Score:  0.6327827919526737
+MSE:  5.970617
+R2 Score:  0.6390365611684529
+MSE:  5.4383893
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 16
+R2 Score:  0.6286765295478933
+MSE:  5.8541527
+R2 Score:  0.6209651284244704
+MSE:  6.4782467
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 32
+R2 Score:  0.5627109430223933
+MSE:  6.862094
+R2 Score:  0.5560547688526222
+MSE:  7.710759
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 64
+R2 Score:  0.6044925517438258
+MSE:  6.232189
+R2 Score:  0.6021243630341659
+MSE:  6.8117294
+
+---
+===========

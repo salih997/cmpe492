@@ -1,0 +1,335 @@
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 4
+Training Time:  60.40625
+R2 Score:  0.6462905509496699
+MSE:  5.57941
+R2 Score:  0.6086950485419759
+MSE:  6.5824094
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 8
+Training Time:  64.796875
+R2 Score:  0.6399675088018704
+MSE:  5.7620916
+R2 Score:  0.6540023994394675
+MSE:  5.5000014
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 16
+Training Time:  67.0
+R2 Score:  0.651213914313214
+MSE:  5.5460134
+R2 Score:  0.6265293310646272
+MSE:  6.034323
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 32
+Training Time:  67.328125
+R2 Score:  0.6320750277878371
+MSE:  5.907517
+R2 Score:  0.6325289816940247
+MSE:  5.7630563
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 64
+Training Time:  63.6875
+R2 Score:  0.6227075216388569
+MSE:  5.9679537
+R2 Score:  0.5876475909870471
+MSE:  6.860045
+
+Stats:  sequence_length-> 100   layer-> 1       hidden_dim-> 128
+Training Time:  65.6875
+R2 Score:  0.6021512816094844
+MSE:  6.209239
+R2 Score:  0.6173322896081632
+MSE:  6.6210995
+
+---
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 4
+Training Time:  74.671875
+R2 Score:  0.6439725927176894
+MSE:  5.7463913
+R2 Score:  0.6497292923421716
+MSE:  5.379314
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 8
+Training Time:  79.546875
+R2 Score:  0.6072399481120079
+MSE:  6.3149943
+R2 Score:  0.5955849087952747
+MSE:  6.3057213
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 16
+Training Time:  84.65625
+R2 Score:  0.6254458072018042
+MSE:  6.0951242
+R2 Score:  0.5956535985975069
+MSE:  5.9766335
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 32
+Training Time:  91.140625
+R2 Score:  0.6297655857845957
+MSE:  6.0076303
+R2 Score:  0.654487652839803
+MSE:  5.187001
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 64
+Training Time:  152.796875
+R2 Score:  0.6436736714775828
+MSE:  5.69227
+R2 Score:  0.6463244726707076
+MSE:  5.6532025
+
+Stats:  sequence_length-> 100   layer-> 2       hidden_dim-> 128
+Training Time:  189.453125
+R2 Score:  0.6475500785569617
+MSE:  5.6174674
+R2 Score:  0.6457725858952734
+MSE:  5.719097
+
+---
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 4
+Training Time:  199.359375
+R2 Score:  0.6240520133916556
+MSE:  5.9385633
+R2 Score:  0.5976123336981176
+MSE:  6.727299
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 8
+Training Time:  207.8125
+R2 Score:  0.6146192744740882
+MSE:  6.100359
+R2 Score:  0.6555478745003049
+MSE:  5.7127867
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 16
+Training Time:  182.109375
+R2 Score:  0.5615418054231323
+MSE:  7.092999
+R2 Score:  0.505086679415452
+MSE:  7.522533
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 32
+Training Time:  156.171875
+R2 Score:  0.6408954594069506
+MSE:  5.7466154
+R2 Score:  0.6179552038265694
+MSE:  6.0720124
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 64
+Training Time:  178.40625
+R2 Score:  0.5113222072293253
+MSE:  7.77548
+R2 Score:  0.48661742816240716
+MSE:  8.281794
+
+Stats:  sequence_length-> 100   layer-> 3       hidden_dim-> 128
+Training Time:  202.390625
+R2 Score:  0.643287493342947
+MSE:  5.819219
+R2 Score:  0.6086837322097578
+MSE:  5.7383733
+
+---
+===========
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 4
+Training Time:  124.84375
+R2 Score:  0.6385555263674476
+MSE:  5.7457404
+R2 Score:  0.6460258079366186
+MSE:  5.8552995
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 8
+Training Time:  93.140625
+R2 Score:  0.632202651411833
+MSE:  5.8163753
+R2 Score:  0.62426016478304
+MSE:  6.351573
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 16
+Training Time:  78.078125
+R2 Score:  0.6400871049162123
+MSE:  5.810343
+R2 Score:  0.6298364169316164
+MSE:  5.770341
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 32
+Training Time:  164.65625
+R2 Score:  0.6380504921924695
+MSE:  5.8230424
+R2 Score:  0.6489875842247315
+MSE:  5.5471516
+
+Stats:  sequence_length-> 200   layer-> 1       hidden_dim-> 64
+Training Time:  183.375
+R2 Score:  0.6161148647303487
+MSE:  6.183749
+R2 Score:  0.6517377205403874
+MSE:  5.478544
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 4
+Training Time:  131.359375
+R2 Score:  0.6280576545058719
+MSE:  6.03023
+R2 Score:  0.638863467905358
+MSE:  5.526153
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 8
+Training Time:  144.53125
+R2 Score:  0.6363298770589172
+MSE:  5.7725687
+R2 Score:  0.6576514873971429
+MSE:  5.7059894
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 16
+Training Time:  151.90625
+R2 Score:  0.6422385877276924
+MSE:  5.7500615
+R2 Score:  0.6433820849608962
+MSE:  5.6506596
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 32
+Training Time:  143.5625
+R2 Score:  0.6242064039144184
+MSE:  5.99084
+R2 Score:  0.6595809107227514
+MSE:  5.5817227
+
+Stats:  sequence_length-> 200   layer-> 2       hidden_dim-> 64
+Training Time:  150.125
+R2 Score:  0.6475469040037449
+MSE:  5.633027
+R2 Score:  0.6440102391360882
+MSE:  5.7795362
+
+---
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 4
+Training Time:  173.984375
+R2 Score:  0.6308001273184507
+MSE:  5.8621483
+R2 Score:  0.6407192790039244
+MSE:  5.9827094
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 8
+Training Time:  178.328125
+R2 Score:  0.6488516845900548
+MSE:  5.6203575
+R2 Score:  0.6624594926895004
+MSE:  5.446493
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 16
+Training Time:  169.046875
+R2 Score:  0.6303124059481354
+MSE:  5.879822
+R2 Score:  0.5979998879810857
+MSE:  6.643501
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 32
+Training Time:  167.546875
+R2 Score:  0.6359728897115402
+MSE:  5.9651833
+R2 Score:  0.6285927286435602
+MSE:  5.414439
+
+Stats:  sequence_length-> 200   layer-> 3       hidden_dim-> 64
+Training Time:  178.609375
+R2 Score:  0.5149142141997882
+MSE:  7.7451158
+R2 Score:  0.4946114251508418
+MSE:  8.23577
+
+---
+===========
+
+Stats:  sequence_length-> 300   layer-> 1       hidden_dim-> 4
+Training Time:  87.921875
+R2 Score:  0.6373441447899254
+MSE:  5.8148627
+R2 Score:  0.6091640953188089
+MSE:  6.478015
+
+Stats:  sequence_length-> 300   layer-> 1       hidden_dim-> 8
+Training Time:  141.71875
+R2 Score:  0.6350085348076518
+MSE:  5.974287
+R2 Score:  0.6294575312578345
+MSE:  5.6581078
+
+Stats:  sequence_length-> 300   layer-> 1       hidden_dim-> 16
+Training Time:  140.71875
+R2 Score:  0.6562152890294888
+MSE:  5.644699
+R2 Score:  0.6444293373137391
+MSE:  5.3438687
+
+Stats:  sequence_length-> 300   layer-> 1       hidden_dim-> 32
+Training Time:  139.203125
+R2 Score:  0.6360661648131922
+MSE:  5.959288
+R2 Score:  0.6157889988271351
+MSE:  5.847533
+
+Stats:  sequence_length-> 300   layer-> 1       hidden_dim-> 64
+Training Time:  129.53125
+R2 Score:  0.6514552575838062
+MSE:  5.5565195
+R2 Score:  0.6268518952880244
+MSE:  6.3303776
+
+---
+Stats:  sequence_length-> 300   layer-> 2       hidden_dim-> 4
+Training Time:  100.5625
+R2 Score:  0.6384326840349973
+MSE:  5.7850127
+R2 Score:  0.6354325409049506
+MSE:  6.06369
+
+Stats:  sequence_length-> 300   layer-> 2       hidden_dim-> 8
+Training Time:  101.484375
+R2 Score:  0.6260141243887203
+MSE:  5.9383492
+R2 Score:  0.6719056167328417
+MSE:  5.6530924
+
+Stats:  sequence_length-> 300   layer-> 2       hidden_dim-> 16
+Training Time:  108.6875
+R2 Score:  0.65121123940074
+MSE:  5.686175
+R2 Score:  0.6229786633526795
+MSE:  5.853469
+
+Stats:  sequence_length-> 300   layer-> 2       hidden_dim-> 32
+Training Time:  106.484375
+R2 Score:  0.6403519913565932
+MSE:  5.767753
+R2 Score:  0.6662212290088534
+MSE:  5.5377607
+
+Stats:  sequence_length-> 300   layer-> 3       hidden_dim-> 4
+Training Time:  114.46875
+R2 Score:  0.6493815157406215
+MSE:  5.6581674
+R2 Score:  0.627706800031641
+MSE:  6.0209627
+
+Stats:  sequence_length-> 300   layer-> 3       hidden_dim-> 8
+Training Time:  117.625
+R2 Score:  0.6219925827749639
+MSE:  6.102238
+R2 Score:  0.5888620932763593
+MSE:  6.5998573
+
+Stats:  sequence_length-> 300   layer-> 3       hidden_dim-> 16
+Training Time:  112.125
+R2 Score:  0.6407246494874091
+MSE:  5.886147
+R2 Score:  0.6172986097132529
+MSE:  5.821585
+
+Stats:  sequence_length-> 300   layer-> 3       hidden_dim-> 32
+Training Time:  116.140625
+R2 Score:  0.644384794325356
+MSE:  5.7452636
+R2 Score:  0.6546364795214665
+MSE:  5.557498
+
+---
+===========
+
+
