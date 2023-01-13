@@ -18,7 +18,7 @@ output_number_of_features = 1
 # Hyperparameters
 number_of_layers = 1        # num_layers
 dropout = float(0.1)
-pos_encode_dimension = 20   # even number
+pos_encode_dimension = 8   # even number
 number_of_head = 1
 
 
@@ -123,8 +123,8 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             loss.backward()
             optimizer.step()
             current_loss = current_loss + loss.item()
-        # if e % 10 == 0:
-        print("Epoch", e, "=> Total Loss:", current_loss)
+        if e % 10 == 0:
+            print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
     
@@ -171,7 +171,7 @@ if __name__ == "__main__":
     test_mse_list = []
     test_set_testing_time_list = []
 
-    for i in range(1):         # 10 runs
+    for i in range(10):         # 10 runs
         print("Run", i+1)
         print("-----")
 
@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
         optim = o.Adam(m.parameters(), lr=0.001)
         lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=5)
+        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=120)
         training_time_list.append(training_time)
 
         train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
