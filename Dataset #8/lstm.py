@@ -128,7 +128,7 @@ if __name__ == "__main__":
     test_mse_list = []
     test_set_testing_time_list = []
 
-    for i in range(1):         # 10 runs
+    for i in range(10):         # 10 runs
         print("Run", i+1)
         print("-----")
 
