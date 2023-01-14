@@ -1,0 +1,189 @@
+Stats:  layer-> 1       pos_encode_dimension-> 20       number of heads-> 1
+Run 1
+-----
+Epoch 10 => Total Loss: 26.25690279539298
+Epoch 20 => Total Loss: 24.61534095867638
+Epoch 30 => Total Loss: 24.100840499212307
+Epoch 40 => Total Loss: 23.669301097631433
+Epoch 50 => Total Loss: 23.522675071924276
+Epoch 60 => Total Loss: 23.051940819587237
+Epoch 70 => Total Loss: 23.146833093534646
+Epoch 80 => Total Loss: 22.963693129501824
+Training Time:  1790.34375
+Test Time:  6.5625
+R2 Score:  0.6404723801595411
+MSE:  5.8112273
+Test Time:  1.640625
+R2 Score:  0.6436811556734178
+MSE:  5.730201
+
+Run 2
+-----
+Epoch 10 => Total Loss: 26.458734609305687
+Epoch 20 => Total Loss: 24.52995701792483
+Epoch 30 => Total Loss: 24.19578449895327
+Epoch 40 => Total Loss: 23.76103480858404
+Epoch 50 => Total Loss: 23.149370695751635
+Epoch 60 => Total Loss: 23.003262072655822
+Epoch 70 => Total Loss: 22.95316488422151
+Epoch 80 => Total Loss: 22.49840352618036
+Training Time:  1713.078125
+Test Time:  6.546875
+R2 Score:  0.6387584309497694
+MSE:  5.838931
+Test Time:  1.65625
+R2 Score:  0.6338478724918706
+MSE:  5.888336
+
+Run 3
+-----
+Epoch 10 => Total Loss: 25.64219398688718
+Epoch 20 => Total Loss: 24.2860522189767
+Epoch 30 => Total Loss: 23.781337604736038
+Epoch 40 => Total Loss: 23.268231776085134
+Epoch 50 => Total Loss: 22.907519330761186
+Epoch 60 => Total Loss: 22.79124561424885
+Epoch 70 => Total Loss: 22.693032351729734
+Epoch 80 => Total Loss: 22.661470665061028
+Training Time:  1647.03125
+Test Time:  6.234375
+R2 Score:  0.630312907439776
+MSE:  5.97544
+Test Time:  1.578125
+R2 Score:  0.6335288923541238
+MSE:  5.893466
+
+Run 4
+-----
+Epoch 10 => Total Loss: 26.10234146025537
+Epoch 20 => Total Loss: 24.423251465629487
+Epoch 30 => Total Loss: 23.80854570175008
+Epoch 40 => Total Loss: 23.679110038220607
+Epoch 50 => Total Loss: 23.316935220725693
+Epoch 60 => Total Loss: 23.061523076043358
+Epoch 70 => Total Loss: 22.63509726663768
+Epoch 80 => Total Loss: 22.858928261280465
+Training Time:  1606.328125
+Test Time:  6.15625
+R2 Score:  0.6384820702671954
+MSE:  5.843398
+Test Time:  1.53125
+R2 Score:  0.6407622552990148
+MSE:  5.777142
+
+Run 5
+-----
+Epoch 10 => Total Loss: 26.11193647335435
+Epoch 20 => Total Loss: 24.622469795746923
+Epoch 30 => Total Loss: 24.00401023792158
+Epoch 40 => Total Loss: 23.204524481988205
+Epoch 50 => Total Loss: 23.162329448731754
+Epoch 60 => Total Loss: 22.896808206791707
+Epoch 70 => Total Loss: 23.03001833692587
+Epoch 80 => Total Loss: 22.92245437263612
+Training Time:  1601.15625
+Test Time:  6.15625
+R2 Score:  0.6364999756307483
+MSE:  5.875436
+Test Time:  1.5625
+R2 Score:  0.6286629166908084
+MSE:  5.9717193
+
+Run 6
+-----
+Epoch 10 => Total Loss: 27.3074200310484
+Epoch 20 => Total Loss: 25.59109949219147
+Epoch 30 => Total Loss: 25.149009515268524
+Epoch 40 => Total Loss: 23.783011951308854
+Epoch 50 => Total Loss: 23.7820598477646
+Epoch 60 => Total Loss: 23.475786616896567
+Epoch 70 => Total Loss: 23.292796477670194
+Epoch 80 => Total Loss: 23.275152067639194
+Training Time:  1599.546875
+Test Time:  6.125
+R2 Score:  0.6347466872211509
+MSE:  5.903775
+Test Time:  1.53125
+R2 Score:  0.6285414549149075
+MSE:  5.9736724
+
+Run 7
+-----
+Epoch 10 => Total Loss: 25.968953464331978
+Epoch 20 => Total Loss: 24.505458438242922
+Epoch 30 => Total Loss: 24.066709019391084
+Epoch 40 => Total Loss: 23.627493432739747
+Epoch 50 => Total Loss: 23.598487214939375
+Epoch 60 => Total Loss: 23.41432562755692
+Epoch 70 => Total Loss: 23.199254717333417
+Epoch 80 => Total Loss: 23.09023242150067
+Training Time:  1595.5
+Test Time:  6.15625
+R2 Score:  0.6353545329143819
+MSE:  5.89395
+Test Time:  1.546875
+R2 Score:  0.6285256958963744
+MSE:  5.9739265
+
+Run 8
+-----
+Epoch 10 => Total Loss: 26.74055131053019
+Epoch 20 => Total Loss: 24.497639869311175
+Epoch 30 => Total Loss: 24.006826149845562
+Epoch 40 => Total Loss: 23.389844156115046
+Epoch 50 => Total Loss: 23.253536199731396
+Epoch 60 => Total Loss: 23.321790095896745
+Epoch 70 => Total Loss: 23.166473050497327
+Epoch 80 => Total Loss: 23.001912654137602
+Training Time:  1599.15625
+Test Time:  6.21875
+R2 Score:  0.6303248951016878
+MSE:  5.9752464
+Test Time:  1.53125
+R2 Score:  0.6267811570013772
+MSE:  6.001981
+
+Run 9
+-----
+Epoch 10 => Total Loss: 26.967151727980728
+Epoch 20 => Total Loss: 25.063720581864867
+Epoch 30 => Total Loss: 24.504638389729468
+Epoch 40 => Total Loss: 23.597763610294567
+Epoch 50 => Total Loss: 23.805641870850465
+Epoch 60 => Total Loss: 23.39081165300565
+Epoch 70 => Total Loss: 23.28212813350779
+Epoch 80 => Total Loss: 23.17460110809718
+Training Time:  1596.390625
+Test Time:  6.109375
+R2 Score:  0.6319007351194132
+MSE:  5.9497757
+Test Time:  1.546875
+R2 Score:  0.6309006690803287
+MSE:  5.9357324
+
+Run 10
+-----
+Epoch 10 => Total Loss: 26.36964606593499
+Epoch 20 => Total Loss: 24.586607888149693
+Epoch 30 => Total Loss: 23.949876771567176
+Epoch 40 => Total Loss: 23.322694394817667
+Epoch 50 => Total Loss: 23.35899292296293
+Epoch 60 => Total Loss: 23.016182753272442
+Epoch 70 => Total Loss: 23.17167133547405
+Epoch 80 => Total Loss: 22.608902228505553
+Training Time:  1599.546875
+Test Time:  6.15625
+R2 Score:  0.6442628649681323
+MSE:  5.74996
+Test Time:  1.5625
+R2 Score:  0.6450030058603089
+MSE:  5.7089434
+
+Statistics:
+Average Training Time                -----> 1634.8078125
+Average Training R2 Score            -----> 0.6361115479771795
+Average Training MSE                 -----> 5.881713962554931
+Average Testing Time of Training Set -----> 6.2421875
+Average Testing R2 Score             -----> 0.6340235075262531
+Average Testing MSE                  -----> 5.885511970520019
+Average Testing Time of Test Set     -----> 1.56875

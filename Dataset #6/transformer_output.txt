@@ -1,0 +1,222 @@
+Stats:  layer-> 1       pos_encode_dimension-> 4        number of heads-> 1
+Epoch 10 => Total Loss: 29.090200392272227
+R2 Score:  0.556866548580053
+MSE:  7.085387
+R2 Score:  0.5582794310670544
+MSE:  7.4080544
+
+Stats:  layer-> 1       pos_encode_dimension-> 4        number of heads-> 2
+Epoch 10 => Total Loss: 32.46540503042429
+R2 Score:  0.46491382732534325
+MSE:  8.555645
+R2 Score:  0.45833739287345077
+MSE:  9.084172
+
+Stats:  layer-> 1       pos_encode_dimension-> 4        number of heads-> 4
+Epoch 10 => Total Loss: 26.33805999322097
+R2 Score:  0.6011411122285866
+MSE:  6.3774686
+R2 Score:  0.6010239885609046
+MSE:  6.6911893
+
+--
+Stats:  layer-> 1       pos_encode_dimension-> 8        number of heads-> 1
+Epoch 10 => Total Loss: 27.062554794894435
+R2 Score:  0.5909045079282038
+MSE:  6.541145
+R2 Score:  0.5759208482314451
+MSE:  7.1121917
+
+Stats:  layer-> 1       pos_encode_dimension-> 8        number of heads-> 2
+Epoch 10 => Total Loss: 26.061312719543274
+R2 Score:  0.614728687291172
+MSE:  6.160213
+R2 Score:  0.6075748407166512
+MSE:  6.581326
+
+Stats:  layer-> 1       pos_encode_dimension-> 8        number of heads-> 4
+Epoch 10 => Total Loss: 27.94556728701439
+R2 Score:  0.5765350698756351
+MSE:  6.770901
+R2 Score:  0.5558958466551907
+MSE:  7.4480286
+
+--
+Stats:  layer-> 1       pos_encode_dimension-> 12       number of heads-> 1
+Epoch 10 => Total Loss: 26.136136813871587
+R2 Score:  0.6235515013356185
+MSE:  6.0191426
+R2 Score:  0.6200105999801752
+MSE:  6.3727665
+
+Stats:  layer-> 1       pos_encode_dimension-> 12       number of heads-> 2
+Epoch 10 => Total Loss: 27.56665476366567
+R2 Score:  0.5836503126560129
+MSE:  6.6571345
+R2 Score:  0.5738291568645437
+MSE:  7.1472716
+
+Stats:  layer-> 1       pos_encode_dimension-> 12       number of heads-> 4
+Epoch 10 => Total Loss: 25.600505507832647
+R2 Score:  0.6168617611375148
+MSE:  6.1261063
+R2 Score:  0.6116893528827432
+MSE:  6.5123215
+
+--
+Stats:  layer-> 1       pos_encode_dimension-> 16       number of heads-> 1
+Epoch 10 => Total Loss: 25.631650009863954
+R2 Score:  0.6126358372139339
+MSE:  6.1936755
+R2 Score:  0.60161339021814
+MSE:  6.6813045
+
+Stats:  layer-> 1       pos_encode_dimension-> 16       number of heads-> 2
+Epoch 10 => Total Loss: 25.35121169318853
+R2 Score:  0.6174968919689854
+MSE:  6.1159515
+R2 Score:  0.6106190597334763
+MSE:  6.530271
+
+Stats:  layer-> 1       pos_encode_dimension-> 16       number of heads-> 4
+Epoch 10 => Total Loss: 26.031893174219388
+R2 Score:  0.6332626655431655
+MSE:  5.8638678
+R2 Score:  0.6222435427642612
+MSE:  6.335318
+
+--
+Stats:  layer-> 1       pos_encode_dimension-> 20       number of heads-> 1
+Epoch 10 => Total Loss: 25.503107293115086
+R2 Score:  0.6227317496004126
+MSE:  6.0322495
+R2 Score:  0.6302518445460024
+MSE:  6.2010117
+
+Stats:  layer-> 1       pos_encode_dimension-> 20       number of heads-> 2
+Epoch 10 => Total Loss: 26.037553859163012
+R2 Score:  0.6239459782883575
+MSE:  6.012835
+R2 Score:  0.6206793632910435
+MSE:  6.3615503
+
+Stats:  layer-> 1       pos_encode_dimension-> 20       number of heads-> 4
+Epoch 10 => Total Loss: 26.352470547225693
+R2 Score:  0.6189312649856528
+MSE:  6.0930166
+R2 Score:  0.6325607561405184
+MSE:  6.1622887
+
+--
+==========
+Stats:  layer-> 2       pos_encode_dimension-> 4        number of heads-> 1
+Epoch 10 => Total Loss: 31.029848263045615
+R2 Score:  0.5360385666401375
+MSE:  7.4184117
+R2 Score:  0.5419296048212172
+MSE:  7.6822557
+
+Stats:  layer-> 2       pos_encode_dimension-> 4        number of heads-> 2
+Epoch 10 => Total Loss: 30.262939254712116
+R2 Score:  0.5476979460130175
+MSE:  7.231986
+R2 Score:  0.5419607854639901
+MSE:  7.6817327
+
+Stats:  layer-> 2       pos_encode_dimension-> 4        number of heads-> 4
+Epoch 10 => Total Loss: 29.76227818289104
+R2 Score:  0.5386633393743738
+MSE:  7.376443
+R2 Score:  0.5320339926345419
+MSE:  7.8482137
+
+--
+Stats:  layer-> 2       pos_encode_dimension-> 8        number of heads-> 1
+Epoch 10 => Total Loss: 29.381819382660755
+R2 Score:  0.5716329353625658
+MSE:  6.8492827
+R2 Score:  0.5616308858090087
+MSE:  7.3518467
+
+Stats:  layer-> 2       pos_encode_dimension-> 8        number of heads-> 2
+Epoch 10 => Total Loss: 30.47849716717085
+R2 Score:  0.5634488985091888
+MSE:  6.98014
+R2 Score:  0.5537861790928345
+MSE:  7.48341
+
+Stats:  layer-> 2       pos_encode_dimension-> 8        number of heads-> 4
+Epoch 10 => Total Loss: 30.760281507016945
+R2 Score:  0.5545281616555974
+MSE:  7.1227765
+R2 Score:  0.5479542460400116
+MSE:  7.5812163
+
+--
+Stats:  layer-> 2       pos_encode_dimension-> 12       number of heads-> 1
+Epoch 10 => Total Loss: 29.764935903325416
+R2 Score:  0.5701520408102255
+MSE:  6.872961
+R2 Score:  0.5392421012671604
+MSE:  7.727327
+
+Stats:  layer-> 2       pos_encode_dimension-> 12       number of heads-> 2
+Epoch 10 => Total Loss: 29.2985669992726
+R2 Score:  0.5749991197970621
+MSE:  6.7954597
+R2 Score:  0.558843197056828
+MSE:  7.398599
+
+Stats:  layer-> 2       pos_encode_dimension-> 12       number of heads-> 4
+Epoch 10 => Total Loss: 29.11276207999088
+R2 Score:  0.5557756535654587
+MSE:  7.1028304
+R2 Score:  0.5526406135943687
+MSE:  7.502622
+
+--
+Stats:  layer-> 2       pos_encode_dimension-> 16       number of heads-> 1
+Epoch 10 => Total Loss: 29.80679584017876
+R2 Score:  0.5761923243146658
+MSE:  6.776382
+R2 Score:  0.5692524152658811
+MSE:  7.2240276
+
+Stats:  layer-> 2       pos_encode_dimension-> 16       number of heads-> 2
+Epoch 10 => Total Loss: 28.868632630841148
+R2 Score:  0.5701139633408698
+MSE:  6.87357
+R2 Score:  0.5677833349113488
+MSE:  7.248665
+
+Stats:  layer-> 2       pos_encode_dimension-> 16       number of heads-> 4
+Epoch 10 => Total Loss: 29.61915858363094
+R2 Score:  0.5705242304037192
+MSE:  6.867011
+R2 Score:  0.5557889070762356
+MSE:  7.449822
+
+--
+Stats:  layer-> 2       pos_encode_dimension-> 20       number of heads-> 1
+Epoch 10 => Total Loss: 30.245239595828284
+R2 Score:  0.5604776652626184
+MSE:  7.0276484
+R2 Score:  0.5734308531926802
+MSE:  7.1539507
+
+Stats:  layer-> 2       pos_encode_dimension-> 20       number of heads-> 2
+Epoch 10 => Total Loss: 29.482878163086188
+R2 Score:  0.5777284567494905
+MSE:  6.7518206
+R2 Score:  0.5690876758293028
+MSE:  7.22679
+
+Stats:  layer-> 2       pos_encode_dimension-> 20       number of heads-> 4
+Epoch 10 => Total Loss: 29.858269722379834
+R2 Score:  0.5662693873403184
+MSE:  6.9350424
+R2 Score:  0.5599012175985796
+MSE:  7.380855
+
+--
+==========

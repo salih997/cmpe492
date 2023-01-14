@@ -10,10 +10,10 @@ import numpy as np
 
 # Constant Params
 number_of_features = 1      # input_size
-sequence_lengthS = [200]
+sequence_lengthS = [300]
 
 # Hyperparameters
-number_of_layersS = [3]        # num_layers
+number_of_layersS = [2]        # num_layers
 hidden_dimensionS = [8]       # hidden_size
 
 # batch_first = True
@@ -138,7 +138,7 @@ if __name__ == "__main__":
 
                     optim = o.Adam(m.parameters(), lr=0.001)
                     lf = nn.MSELoss()
-                    m, training_time = train(train_data, train_labels, test_data, test_labels, m, optim, lf, device, min_value, max_value, epoch=80)
+                    m, training_time = train(train_data, train_labels, test_data, test_labels, m, optim, lf, device, min_value, max_value, epoch=70)
                     training_time_list.append(training_time)
 
                     train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)

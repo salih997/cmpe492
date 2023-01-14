@@ -12,14 +12,14 @@ from torch import Tensor
 
 # Constant Params
 number_of_features = 1      # input_size
-sequence_length = 15
+sequence_length = 300
 output_number_of_features = 1
 
 # Hyperparameters
-number_of_layers = 1        # num_layers
+number_of_layersS = [1]        # num_layers
 dropout = float(0.1)
-pos_encode_dimension = 20   # even number
-number_of_head = 1
+pos_encode_dimensionS = [20]   # even number
+number_of_headS = [1]
 
 
 # batch_first = True
@@ -39,7 +39,7 @@ number_of_head = 1
 
 class Transformer(nn.Module):
 
-    def __init__(self):
+    def __init__(self, number_of_head, number_of_layers, pos_encode_dimension):
         super(Transformer, self).__init__()
         self.pos_encoder = PositionalEncoding(pos_encode_dimension, dropout, sequence_length)
         encoder_layer = nn.TransformerEncoderLayer(d_model=(pos_encode_dimension*number_of_features), nhead=number_of_head, batch_first=True)
@@ -111,7 +111,7 @@ def take_data(input_path):
     return train_data, train_labels, test_data, test_labels, train_labels_min, train_labels_max, dd[:train_data.shape[0]], dd[train_data.shape[0]:]
 
 
-def train(X, Y, model, optimizer, loss_function, device, epoch=50):
+def train(X, Y, X_test, Y_test, model, optimizer, loss_function, device, min_value, max_value, epoch=50):
 
     start_time = time.process_time()
     for e in range(1, epoch+1):
@@ -123,8 +123,8 @@ def train(X, Y, model, optimizer, loss_function, device, epoch=50):
             loss.backward()
             optimizer.step()
             current_loss = current_loss + loss.item()
-        # if e % 10 == 0:
-        print("Epoch", e, "=> Total Loss:", current_loss)
+        if e % 10 == 0:
+            print("Epoch", e, "=> Total Loss:", current_loss)
     end_time = time.process_time()
     print("Training Time: ", end_time - start_time)
     
@@ -163,46 +163,50 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    training_time_list = []
-    train_r2_score_list = []
-    train_mse_list = []
-    train_set_testing_time_list = []
-    test_r2_score_list = []
-    test_mse_list = []
-    test_set_testing_time_list = []
+    for layer in number_of_layersS:
+        for pos_encode_dimension in pos_encode_dimensionS:
+            for head in number_of_headS:
 
-    for i in range(1):         # 10 runs
-        print("Run", i+1)
-        print("-----")
+                print("Stats:\tlayer->", layer, "\tpos_encode_dimension->", pos_encode_dimension, "\tnumber of heads->", head)
+                training_time_list = []
+                train_r2_score_list = []
+                train_mse_list = []
+                train_set_testing_time_list = []
+                test_r2_score_list = []
+                test_mse_list = []
+                test_set_testing_time_list = []
 
-        m = Transformer()
-        m.to(device)
+                for i in range(10):         # 10 runs
+                    print("Run", i+1)
+                    print("-----")
 
-        optim = o.Adam(m.parameters(), lr=0.001)
-        lf = nn.MSELoss()
-        m, training_time = train(train_data, train_labels, m, optim, lf, device, epoch=5)
-        training_time_list.append(training_time)
+                    m = Transformer(head, layer, pos_encode_dimension)
+                    m.to(device)
 
-        train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
-        train_r2_score_list.append(train_r2_score)
-        train_mse_list.append(train_mse)
-        train_set_testing_time_list.append(train_set_testing_time)
+                    optim = o.Adam(m.parameters(), lr=0.001)
+                    lf = nn.MSELoss()
+                    m, training_time = train(train_data, train_labels,test_data,test_labels, m, optim, lf, device,min_value,max_value, epoch=80)
+                    training_time_list.append(training_time)
 
-        test_r2_score, test_mse, test_set_testing_time = test(test_data, test_labels, m, min_value, max_value, dd_test, 'tomato', i, device)
-        test_r2_score_list.append(test_r2_score)
-        test_mse_list.append(test_mse)
-        test_set_testing_time_list.append(test_set_testing_time)
+                    train_r2_score, train_mse, train_set_testing_time = test(train_data, train_labels, m, min_value, max_value, dd_train, 'blue', i, device)
+                    train_r2_score_list.append(train_r2_score)
+                    train_mse_list.append(train_mse)
+                    train_set_testing_time_list.append(train_set_testing_time)
 
-        print()
+                    test_r2_score, test_mse, test_set_testing_time = test(test_data, test_labels, m, min_value, max_value, dd_test, 'tomato', i, device)
+                    test_r2_score_list.append(test_r2_score)
+                    test_mse_list.append(test_mse)
+                    test_set_testing_time_list.append(test_set_testing_time)
 
-    print("Statistics:")
-    print("Average Training Time                ----->", sum(training_time_list) / len(training_time_list))
-    print("Average Training R2 Score            ----->", sum(train_r2_score_list) / len(train_r2_score_list))
-    print("Average Training MSE                 ----->", sum(train_mse_list) / len(train_mse_list))
-    print("Average Testing Time of Training Set ----->", sum(train_set_testing_time_list) / len(train_set_testing_time_list))
-    print("Average Testing R2 Score             ----->", sum(test_r2_score_list) / len(test_r2_score_list))
-    print("Average Testing MSE                  ----->", sum(test_mse_list) / len(test_mse_list))
-    print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
+                    print()
 
+                print("Statistics:")
+                print("Average Training Time                ----->", sum(training_time_list) / len(training_time_list))
+                print("Average Training R2 Score            ----->", sum(train_r2_score_list) / len(train_r2_score_list))
+                print("Average Training MSE                 ----->", sum(train_mse_list) / len(train_mse_list))
+                print("Average Testing Time of Training Set ----->", sum(train_set_testing_time_list) / len(train_set_testing_time_list))
+                print("Average Testing R2 Score             ----->", sum(test_r2_score_list) / len(test_r2_score_list))
+                print("Average Testing MSE                  ----->", sum(test_mse_list) / len(test_mse_list))
+                print("Average Testing Time of Test Set     ----->", sum(test_set_testing_time_list) / len(test_set_testing_time_list))
     plt.show()
 
